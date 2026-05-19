@@ -20,6 +20,9 @@
 		h2 { margin-top: 3rem; border-bottom: 1px solid #ddd; padding-bottom: .25em; }
 		h3 { margin-bottom: .25em; }
 		p, ul { margin-top: .5rem; }
+		table { border-collapse: collapse; width: 100%; margin-top: .5rem; font-size: .875em; }
+		th, td { text-align: left; padding: .35em .6em; border: 1px solid #ddd; vertical-align: top; }
+		thead th { background: #f0f0f0; }
 
 		.example {
 			margin: 1.5rem 0;
@@ -282,6 +285,81 @@
   console.log('Server opgeslagen:', returnValue); // bijv. "mastodon.social"
 });</pre>
 </div>
+
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>11. Stijlen — CSS custom properties &amp; classnames</h2>
+<p>De component injecteert één keer een minimaal stijlblad (light DOM — geen Shadow DOM). Alle lay-outwaarden zijn beschikbaar als CSS custom properties; de classnames hieronder bieden extra aanknopingspunten.</p>
+
+<h3>Voorbeeld: aangepaste stijl via CSS custom properties</h3>
+<div class="example">
+	<div class="example__demo">
+		<style>
+			#styled-example {
+				--share-mastodon-gap: .625em;
+				--share-mastodon-link-gap: .5em;
+				--share-mastodon-padding: 2em;
+				--share-mastodon-dialog-backdrop-color: rgba(99, 60, 180, .6);
+			}
+		</style>
+		<share-mastodon id="styled-example" show-icon="true">Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">#styled-example {
+  --share-mastodon-gap: .625em;
+  --share-mastodon-link-gap: .5em;
+  --share-mastodon-padding: 2em;
+  --share-mastodon-dialog-backdrop-color: rgba(99, 60, 180, .6);
+}</pre>
+</div>
+
+<h3>CSS custom properties</h3>
+<table>
+	<thead>
+		<tr><th>Property</th><th>Standaard</th><th>Toegepast op</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code>--share-mastodon-display</code></td><td><code>flex</code></td><td>host-element</td></tr>
+		<tr><td><code>--share-mastodon-align-items</code></td><td><code>center</code></td><td>host-element</td></tr>
+		<tr><td><code>--share-mastodon-gap</code></td><td><code>.25em</code></td><td>host-element; ook fallback voor form-velden ruimte</td></tr>
+		<tr><td><code>--share-mastodon-link-display</code></td><td><code>flex</code></td><td><code>.share-mastodon__link</code></td></tr>
+		<tr><td><code>--share-mastodon-link-gap</code></td><td><code>.25em</code></td><td><code>.share-mastodon__link</code></td></tr>
+		<tr><td><code>--share-mastodon-padding</code></td><td><code>1.5em</code></td><td><code>.share-mastodon__dialog</code></td></tr>
+		<tr><td><code>--share-mastodon-dialog-min-width</code></td><td><code>min(calc(100vw - 3em), 40ch)</code></td><td><code>.share-mastodon__dialog</code></td></tr>
+		<tr><td><code>--share-mastodon-dialog-backdrop-color</code></td><td><code>rgba(0,0,0,.7)</code></td><td><code>::backdrop</code></td></tr>
+		<tr><td><code>--share-mastodon-fields-display</code></td><td><code>flex</code></td><td><code>.share-mastodon__dialog-fields</code></td></tr>
+		<tr><td><code>--share-mastodon-fields-justify-content</code></td><td><code>space-between</code></td><td><code>.share-mastodon__dialog-fields</code></td></tr>
+		<tr><td><code>--share-mastodon-fields-gap</code></td><td><code>var(--share-mastodon-gap)</code></td><td><code>.share-mastodon__dialog-fields</code></td></tr>
+		<tr><td><code>--share-mastodon-dialog-color-invalid</code></td><td><code>rgb(200,50,50)</code></td><td>hinttekst bij validatiefout</td></tr>
+	</tbody>
+</table>
+
+<h3>CSS classnames</h3>
+<table>
+	<thead>
+		<tr><th>Classname</th><th>Element</th><th>Toelichting</th></tr>
+	</thead>
+	<tbody>
+		<tr><td><code>share-mastodon__link</code></td><td><code>&lt;a&gt;</code></td><td>Het deel-anker</td></tr>
+		<tr><td><code>share-mastodon__link-icon</code></td><td><code>&lt;span&gt;</code></td><td>Icoon-wrapper; aanwezig bij <code>show-icon</code> of <code>icon-only</code></td></tr>
+		<tr><td><code>share-mastodon__link-icon-only</code></td><td>modifier op <code>&lt;a&gt;</code></td><td>Toegevoegd bij <code>icon-only</code></td></tr>
+		<tr><td><code>share-mastodon__text</code></td><td><code>&lt;span&gt;</code></td><td>Linktekst</td></tr>
+		<tr><td><code>share-mastodon__explainer</code></td><td><code>&lt;span&gt;</code></td><td>Visueel verborgen toelichting vóórdat een server is opgeslagen</td></tr>
+		<tr><td><code>share-mastodon__visually-hidden</code></td><td>utility</td><td>Verbergt inhoud visueel maar houdt het toegankelijk</td></tr>
+		<tr><td><code>share-mastodon__edit</code></td><td><code>&lt;button&gt;</code></td><td>Knop "Server aanpassen"; verborgen totdat een server is opgeslagen</td></tr>
+		<tr><td><code>share-mastodon__edit-text</code></td><td><code>&lt;span&gt;</code></td><td>Tekst in de bewerkknop</td></tr>
+		<tr><td><code>share-mastodon__dialog</code></td><td><code>&lt;dialog&gt;</code></td><td>De instantie-dialog</td></tr>
+		<tr><td><code>share-mastodon__dialog-form</code></td><td><code>&lt;form&gt;</code></td><td>Formulier in de dialog</td></tr>
+		<tr><td><code>share-mastodon__dialog-label</code></td><td><code>&lt;label&gt;</code></td><td>Koplabel van de dialog</td></tr>
+		<tr><td><code>share-mastodon__dialog-hint</code></td><td><code>&lt;p&gt;</code></td><td>Hint- / foutparagraaf</td></tr>
+		<tr><td><code>share-mastodon__dialog-fields</code></td><td><code>&lt;div&gt;</code></td><td>Flex-wrapper voor input en knoppen</td></tr>
+		<tr><td><code>share-mastodon__dialog-input</code></td><td><code>&lt;input&gt;</code></td><td>Tekstinvoer voor de server-hostnaam</td></tr>
+		<tr><td><code>share-mastodon__dialog-save</code></td><td><code>&lt;button&gt;</code></td><td>Opslaan / ga-verder-knop</td></tr>
+		<tr><td><code>share-mastodon__dialog-save-text</code></td><td><code>&lt;span&gt;</code></td><td>Tekst in de opslaanknop</td></tr>
+		<tr><td><code>share-mastodon__dialog-cancel</code></td><td><code>&lt;button&gt;</code></td><td>Annuleren / sluiten-knop</td></tr>
+		<tr><td><code>share-mastodon__dialog-cancel-text</code></td><td><code>&lt;span&gt;</code></td><td>Tekst in de annuleerknop</td></tr>
+		<tr><td><code>share-mastodon__dialog-is-invalid</code></td><td>modifier op <code>&lt;dialog&gt;</code></td><td>Toegevoegd wanneer de ingevoerde server de validatie niet doorstaat</td></tr>
+	</tbody>
+</table>
 
 
 <script type="module" src="./dist/share-mastodon.min.js"></script>

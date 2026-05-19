@@ -161,6 +161,51 @@ document.addEventListener('share-mastodon:dialog:close', (event) => {
 });
 ```
 
+## Styles
+
+The component injects a minimal stylesheet once (light DOM — no Shadow DOM). All layout values are exposed as CSS custom properties so you can override them without touching the source.
+
+### CSS custom properties
+
+| Property | Default | Applied to |
+|---|---|---|
+| `--share-mastodon-display` | `flex` | host element |
+| `--share-mastodon-align-items` | `center` | host element |
+| `--share-mastodon-gap` | `.25em` | host element; also fallback for fields gap |
+| `--share-mastodon-link-display` | `flex` | `.share-mastodon__link` |
+| `--share-mastodon-link-gap` | `.25em` | `.share-mastodon__link` |
+| `--share-mastodon-padding` | `1.5em` | `.share-mastodon__dialog` |
+| `--share-mastodon-dialog-min-width` | `min(calc(100vw - 3em), 40ch)` | `.share-mastodon__dialog` |
+| `--share-mastodon-dialog-backdrop-color` | `rgba(0,0,0,.7)` | `::backdrop` |
+| `--share-mastodon-fields-display` | `flex` | `.share-mastodon__dialog-fields` |
+| `--share-mastodon-fields-justify-content` | `space-between` | `.share-mastodon__dialog-fields` |
+| `--share-mastodon-fields-gap` | `var(--share-mastodon-gap)` | `.share-mastodon__dialog-fields` |
+| `--share-mastodon-dialog-color-invalid` | `rgb(200,50,50)` | hint text in invalid state |
+
+### CSS classnames
+
+| Classname | Element | Notes |
+|---|---|---|
+| `share-mastodon__link` | `<a>` | The share anchor |
+| `share-mastodon__link-icon` | `<span>` | Icon wrapper; present when `show-icon` or `icon-only` is set |
+| `share-mastodon__link-icon-only` | modifier on `<a>` | Added when `icon-only` is set |
+| `share-mastodon__text` | `<span>` | Link label text |
+| `share-mastodon__explainer` | `<span>` | Visually hidden hint shown before a server is saved |
+| `share-mastodon__visually-hidden` | utility | Visually hides content while keeping it in the accessibility tree |
+| `share-mastodon__edit` | `<button>` | "Edit server" button; hidden until a server is saved |
+| `share-mastodon__edit-text` | `<span>` | Text inside the edit button |
+| `share-mastodon__dialog` | `<dialog>` | The instance dialog |
+| `share-mastodon__dialog-form` | `<form>` | Form inside the dialog |
+| `share-mastodon__dialog-label` | `<label>` | Dialog heading label |
+| `share-mastodon__dialog-hint` | `<p>` | Hint / error paragraph |
+| `share-mastodon__dialog-fields` | `<div>` | Flex wrapper for input and buttons |
+| `share-mastodon__dialog-input` | `<input>` | Server hostname input |
+| `share-mastodon__dialog-save` | `<button>` | Save / continue button |
+| `share-mastodon__dialog-save-text` | `<span>` | Text inside the save button |
+| `share-mastodon__dialog-cancel` | `<button>` | Cancel / close button |
+| `share-mastodon__dialog-cancel-text` | `<span>` | Text inside the cancel button |
+| `share-mastodon__dialog-is-invalid` | modifier on `<dialog>` | Added when the entered server fails validation |
+
 ## Development
 
 ```bash
