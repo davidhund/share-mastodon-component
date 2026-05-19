@@ -7,6 +7,14 @@ Accessible, multilingual HTML Web Component that opens a Mastodon instance dialo
 - Remembers the user's Mastodon instance across visits
 - Built-in `en` / `nl` i18n; fully overridable via attributes
 
+## DEMO
+
+```bash
+npm install.   # Installs dev dependencies (only needed for building)
+npm run build  # Build to /dist
+npx serve .    # Run local webserver for index.html Demo-page
+```
+
 ## Installation
 
 ```bash
@@ -151,12 +159,6 @@ document.addEventListener('share-mastodon:dialog:close', (event) => {
 
   console.log('Server saved:', returnValue); // e.g. "mastodon.social"
 });
-```
-
-## DEMO
-
-```bash
-npx serve .    # Run local webserver for index.html
 ```
 
 ## Development
