@@ -407,7 +407,7 @@ customElements.define(
 						<label id="${labelId}" class="${this.#name}__dialog-label" for="${inputId}">${this.#getString("dialog_label")}</label>
 						<p id="${hintId}" class="${this.#name}__dialog-hint">${this.#getString("dialog_hint")}</p>
 						<div class="${this.#name}__dialog-fields">
-							<input id="${inputId}" class="${this.#name}__dialog-input" type="text" value="" aria-describedby="${hintId}" autofocus="" autocomplete="url">
+							<input name="instance" data-1p-ignore data-bwignore data-lpignore="true" data-form-type="other" id="${inputId}" class="${this.#name}__dialog-input" type="text" value="" aria-describedby="${hintId}" autofocus="" autocomplete="url">
 							<button type="submit" value="save" class="${this.#name}__dialog-save"><span class="${this.#name}__dialog-save-text">${this.#getString("dialog_save")}</span></button>
 							<button type="button" value="cancel" class="${this.#name}__dialog-cancel"><span class="${this.#name}__dialog-cancel-text">${this.#getString("dialog_cancel")}</span></button>
 						</div>
