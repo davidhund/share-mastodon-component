@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Share Mastodon component — Voorbeelden</title>
+
+	<style>
+		*, *::before, *::after { box-sizing: border-box; }
+		html {
+			font-family: system-ui, sans-serif;
+			line-height: 1.5;
+		}
+		body {
+			max-width: 72ch;
+			margin: 2rem auto;
+			padding: 0 1rem;
+		}
+		h1 { margin-bottom: .25em; }
+		h2 { margin-top: 3rem; border-bottom: 1px solid #ddd; padding-bottom: .25em; }
+		h3 { margin-bottom: .25em; }
+		p, ul { margin-top: .5rem; }
+
+		.example {
+			margin: 1.5rem 0;
+		}
+		.example__demo {
+			padding: 1rem;
+			border: 1px solid #ddd;
+			border-radius: .375rem;
+			background: #fafafa;
+		}
+		.example__code {
+			margin: 0;
+			padding: .75rem 1rem;
+			background: #1e1e1e;
+			color: #d4d4d4;
+			border-radius: 0 0 .375rem .375rem;
+			font-size: .85em;
+			overflow-x: auto;
+			white-space: pre;
+			border: 1px solid #333;
+			border-top: none;
+		}
+	</style>
+</head>
+<body>
+
+<h1><code>&lt;share-mastodon&gt;</code> — Voorbeelden</h1>
+
+<p>Een <code>&lt;share-mastodon&gt;</code> HTML Web Component. Opent een dialog en onthoudt je server.</p>
+<p><strong>Alle attributen op een rij:</strong></p>
+<ul>
+	<li><code>server</code> — stel de Mastodon-instantie hostname vooraf in</li>
+	<li><code>lang</code> — forceer de taal van de UI (<code>en</code> / <code>nl</code>; standaard automatisch gedetecteerd)</li>
+	<li><code>show-icon</code> — toon het Mastodon-icoon naast de linktekst</li>
+	<li><code>icon-only</code> — toon alleen het icoon (tekst is visueel verborgen maar nog steeds toegankelijk); impliceert <code>show-icon</code></li>
+	<li><code>text</code> — aangepaste deeltekst (standaard <code>document.title</code>)</li>
+	<li><code>via</code> — voeg een "via"-handle toe aan de deeltekst</li>
+	<li><code>label</code> — overschrijf de linktekst</li>
+	<li><code>label-explainer</code> — visueel verborgen toelichting wanneer er nog geen server is ingesteld</li>
+	<li><code>edit-text</code> — label van de "server bewerken"-knop</li>
+	<li><code>dialog-label</code> — koplabel van de dialog</li>
+	<li><code>dialog-hint</code> — hinttekst in de dialog</li>
+	<li><code>dialog-hint-invalid</code> — foutmelding bij ongeldige server; gebruik <code>%SERVER%</code> als plaatshouder</li>
+	<li><code>dialog-save</code> — label van de opslaan-knop</li>
+	<li><code>dialog-cancel</code> — label van de annuleren-knop</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>1. Minimaal — alleen tekstinhoud</h2>
+<p>De eenvoudigste vorm: wikkel de component om willekeurige tekst. De component maakt automatisch het hyperlink, de dialog en het stijlblad aan.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon>Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon&gt;Deel via Mastodon&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>2. Met een eigen <code>&lt;a&gt;</code>-hyperlink</h2>
+<p>Geef een bestaand hyperlinkelement mee als kind — de component omhult het en verbetert de <code>href</code> zodra een server bekend is. Handig als no-JS-fallback.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon>
+			<a href="https://share.joinmastodon.org/#text=Bekijk%20dit%20eens">Deel via Mastodon</a>
+		</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon&gt;
+  &lt;a href="https://share.joinmastodon.org/#text=Bekijk%20dit%20eens"&gt;Deel via Mastodon&lt;/a&gt;
+&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>3. <code>lang</code> — taal forceren</h2>
+<p>Overschrijf de automatische detectie om een specifieke taal af te dwingen. Ingebouwd: <code>en</code>, <code>nl</code>. Valt terug op <code>nl</code> voor onbekende talen (met een consolewaarschuwing).</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon lang="en">Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon lang="en"&gt;Deel via Mastodon&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>4. <code>server</code> — instantie vooraf instellen</h2>
+<p>Sla de dialog over door een standaard hostnaam op te geven. De link gaat direct naar de deelpagina. De waarde wordt ook opgeslagen in <code>localStorage</code> en gedeeld met alle instanties op de pagina.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon server="mastodon.social">Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon server="mastodon.social"&gt;Deel via Mastodon&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>5. <code>show-icon</code> — met Mastodon-icoon</h2>
+<p>Voegt het Mastodon SVG-logo toe vóór de link. Het icoon heeft <code>role="presentation"</code> en is <code>1em</code> groot.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon show-icon="true">Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon show-icon="true"&gt;Deel via Mastodon&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>6. <code>icon-only</code> — icoon met visueel verborgen tekst</h2>
+<p>Toont alleen het icoon; de linktekst is visueel verborgen maar blijft zichtbaar in de accessibiliteitsboom. Impliceert <code>show-icon</code>.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon icon-only="true">Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon icon-only="true"&gt;Deel via Mastodon&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>7. <code>text</code> + <code>via</code> — aangepaste deelinhoud</h2>
+<p><code>text</code> overschrijft de standaard deeltekst (anders <code>document.title</code>). <code>via</code> voegt een handle toe. Beide worden opgenomen in de URL-gecodeerde Mastodon-deelstring.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon
+			text="Bekijk dit artikel!"
+			via="@jij@mastodon.social"
+			show-icon="true"
+		>Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon
+  text="Bekijk dit artikel!"
+  via="@jij@mastodon.social"
+  show-icon="true"
+&gt;Deel via Mastodon&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>8. Vertaalattributen — alle i18n-attributen</h2>
+<p>Elke tekst in de UI kan per instantie overschreven worden zonder de broncode aan te passen. Gebruik <code>%SERVER%</code> als plaatshouder in <code>dialog-hint-invalid</code>.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon
+			label="Deel deze pagina"
+			label-explainer="Voer eerst je Mastodon-serveradres in om te delen."
+			edit-text="Mastodon-server aanpassen"
+			dialog-label="Jouw Mastodon-server:"
+			dialog-hint="bijv. mastodon.social, social.overheid.nl of mas.to"
+			dialog-hint-invalid="'%SERVER%' lijkt geen geldige server."
+			dialog-save="Ga verder"
+			dialog-cancel="Annuleren"
+		>Deel deze pagina</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon
+  label="Deel deze pagina"
+  label-explainer="Voer eerst je Mastodon-serveradres in om te delen."
+  edit-text="Mastodon-server aanpassen"
+  dialog-label="Jouw Mastodon-server:"
+  dialog-hint="bijv. mastodon.social, social.overheid.nl of mas.to"
+  dialog-hint-invalid="'%SERVER%' lijkt geen geldige server."
+  dialog-save="Ga verder"
+  dialog-cancel="Annuleren"
+&gt;Deel deze pagina&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>9. Volledig voorbeeld — alle attributen</h2>
+<p>Alles gecombineerd: vooraf ingestelde server, icoon, aangepaste deeltekst en via-handle, én alle vertaaloverschrijvingen.</p>
+
+<div class="example">
+	<div class="example__demo">
+		<share-mastodon
+			server="social.overheid.nl"
+			lang="nl"
+			show-icon="true"
+			text="Bekijk deze Mastodon-deelwidget!"
+			via="@jij@social.overheid.nl"
+			label="Deel via Mastodon"
+			label-explainer="Voer je Mastodon-server in om deze pagina te delen."
+			edit-text="Server aanpassen"
+			dialog-label="Jouw Mastodon-server:"
+			dialog-hint="bijv. mastodon.social, social.overheid.nl of mas.to"
+			dialog-hint-invalid="'%SERVER%' lijkt geen geldige server."
+			dialog-save="Ga verder"
+			dialog-cancel="Annuleren"
+		>Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">&lt;share-mastodon
+  server="social.overheid.nl"
+  lang="nl"
+  show-icon="true"
+  text="Bekijk deze Mastodon-deelwidget!"
+  via="@jij@social.overheid.nl"
+  label="Deel via Mastodon"
+  label-explainer="Voer je Mastodon-server in om deze pagina te delen."
+  edit-text="Server aanpassen"
+  dialog-label="Jouw Mastodon-server:"
+  dialog-hint="bijv. mastodon.social, social.overheid.nl of mas.to"
+  dialog-hint-invalid="'%SERVER%' lijkt geen geldige server."
+  dialog-save="Ga verder"
+  dialog-cancel="Annuleren"
+&gt;Deel via Mastodon&lt;/share-mastodon&gt;</pre>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>10. Custom events</h2>
+<p>
+	De component vuurt drie custom events. Alle events bubbelen op en zijn cancelable.
+	Ze worden altijd geprefixed met de tagnaam: <code>share-mastodon:</code>.
+	Luister op <code>document</code> of op een bovenliggend element om alle instanties op de pagina af te vangen,
+	of direct op het element voor één specifieke instantie.
+</p>
+
+<h3><code>share-mastodon:init</code></h3>
+<p>Wordt eenmalig afgevuurd zodra de component volledig geïnitialiseerd is. <code>event.detail</code> is het component-element zelf.</p>
+
+<div class="example">
+	<div class="example__demo" id="demo-event-init" aria-live="polite">
+		<share-mastodon>Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">document.addEventListener('share-mastodon:init', (event) => {
+  console.log('Geïnitialiseerd:', event.detail); // het &lt;share-mastodon&gt; element
+});</pre>
+</div>
+
+<h3><code>share-mastodon:dialog:open</code></h3>
+<p>Wordt afgevuurd op het moment dat de dialog wordt geopend. <code>event.detail</code> is een leeg object.</p>
+
+<div class="example">
+	<div class="example__demo" id="demo-event-open" aria-live="polite">
+		<share-mastodon>Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">document.addEventListener('share-mastodon:dialog:open', (event) => {
+  console.log('Dialog geopend door:', event.target);
+});</pre>
+</div>
+
+<h3><code>share-mastodon:dialog:close</code></h3>
+<p>
+	Wordt afgevuurd nadat de dialog gesloten is. <code>event.detail</code> bevat de <code>returnValue</code> van de dialog:
+</p>
+<ul>
+	<li><strong>hostnaam</strong> (bijv. <code>"mastodon.social"</code>) — gebruiker heeft een geldige server opgeslagen</li>
+	<li><code>"cancel"</code> — gebruiker heeft de dialog gesloten zonder op te slaan</li>
+	<li><code>""</code> (lege string) — dialog sloot op een andere manier (bijv. <code>Escape</code> of <code>closedby=&quot;any&quot;</code>)</li>
+</ul>
+
+<div class="example">
+	<div class="example__demo" id="demo-event-close" aria-live="polite">
+		<share-mastodon>Deel via Mastodon</share-mastodon>
+	</div>
+	<pre class="example__code">document.addEventListener('share-mastodon:dialog:close', (event) => {
+  const returnValue = event.detail;
+
+  if (!returnValue || returnValue === 'cancel') {
+    console.log('Dialog gesloten zonder wijziging.');
+    return;
+  }
+
+  console.log('Server opgeslagen:', returnValue); // bijv. "mastodon.social"
+});</pre>
+</div>
+
+
+<script type="module" src="./dist/share-mastodon.min.js"></script>
+
+<script>
+	document.addEventListener('share-mastodon:init', (event) => {
+		console.log('share-mastodon:init', event.target);
+	});
+
+	document.addEventListener('share-mastodon:dialog:open', (event) => {
+		console.log('share-mastodon:dialog:open', event.target);
+	});
+
+	document.addEventListener('share-mastodon:dialog:close', (event) => {
+		console.log('share-mastodon:dialog:close', 'returnValue:', event.detail);
+	});
+</script>
+
+</body>
+</html>

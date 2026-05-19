@@ -1,0 +1,41 @@
+{
+  "name": "share-mastodon-component",
+  "version": "1.0.0",
+  "description": "Accessible and multilingual share-on-Mastodon HTML Web Component",
+  "type": "module",
+  "main": "./dist/share-mastodon.min.js",
+  "module": "./dist/share-mastodon.min.js",
+  "exports": {
+    ".": {
+      "import": "./dist/share-mastodon.min.js"
+    }
+  },
+  "scripts": {
+    "format": "biome format --write ./src/*.js",
+    "build:script": "esbuild src/share-mastodon.js --format=esm --target=es2020 --platform=browser --bundle --minify --sourcemap --outfile=dist/share-mastodon.min.js",
+    "build": "npm run format && npm run build:script",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidhund/share-mastodon-component.git"
+  },
+  "keywords": [
+    "mastodon",
+    "share",
+    "web component",
+    "social media",
+    "accessible"
+  ],
+  "author": "davidhund",
+  "license": "EUPL-1.2",
+  "bugs": {
+    "url": "https://github.com/davidhund/share-mastodon-component/issues"
+  },
+  "homepage": "https://github.com/davidhund/share-mastodon-component#readme",
+  "devDependencies": {
+    "@biomejs/biome": "2.4.15",
+    "esbuild": "^0.28.0"
+  }
+}
