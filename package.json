@@ -1,6 +1,6 @@
 {
   "name": "share-mastodon-component",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Accessible and multilingual share-on-Mastodon HTML Web Component",
   "type": "module",
   "main": "./dist/share-mastodon.min.js",
@@ -14,6 +14,7 @@
     "format": "biome format --write ./src/*.js",
     "build:script": "esbuild src/share-mastodon.js --format=esm --target=es2020 --platform=browser --bundle --minify --sourcemap --outfile=dist/share-mastodon.min.js",
     "build": "npm run format && npm run build:script",
+    "prepare": "npm run build:script",
     "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
