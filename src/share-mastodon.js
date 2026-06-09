@@ -29,7 +29,7 @@ customElements.define(
 		/** @type {boolean} */ #isInitialized = false;
 		/** @type {string} */ #id = Math.random().toString(36).slice(2);
 		/** @type {string} */ #name;
-		/** @type {string} */ #lang = "nl";
+		/** @type {string} */ #lang = "en";
 		/** @type {HTMLAnchorElement | null} */ #anchor;
 		/** @type {string} */ #anchor_original_href;
 		/** @type {HTMLElement | null} */ #explainer;
@@ -78,10 +78,11 @@ customElements.define(
 		connectedCallback() {
 			if (document.readyState !== "loading") {
 				this.#init();
+			} else {
+				document.addEventListener("DOMContentLoaded", () => this.#init(), {
+					once: true,
+				});
 			}
-			document.addEventListener("DOMContentLoaded", () => this.#init(), {
-				once: true,
-			});
 		}
 
 		// Cleanup per-instance dialog listeners
@@ -105,7 +106,6 @@ customElements.define(
 		 * ----------------------------- */
 		attributeChangedCallback(name, old, cur) {
 			if (!this.#isInitialized) return;
-			if (!this.constructor.observedAttributes.includes(name)) return;
 			if (old === cur) return;
 			if (name === "server") {
 				this.#setInstance(cur || null);
@@ -113,15 +113,10 @@ customElements.define(
 		}
 
 		/**
-		 * @private initialize the component
-		 * @returns {ThisType}
+		 * @private read server from attributes, global state, or storage
 		 * ----------------------------- */
-		#init() {
-			if (this.#isInitialized) return;
-
+		#readServerConfig() {
 			let server = this.getAttribute("server");
-			const showIcon = this.getAttribute("show-icon");
-			const iconOnly = this.getAttribute("icon-only");
 
 			if (!server && ShareMastodon.#globalServer) {
 				server = ShareMastodon.#globalServer;
@@ -141,37 +136,13 @@ customElements.define(
 					this.#writeLocalStorage(ShareMastodon.#storageKey, server) !== -1;
 			}
 
-			this.#lang = this.#detectLang();
-			this.#name = this?.tagName?.toLowerCase();
-			this.#anchor = this.querySelector("a");
-			this.#text = this.getAttribute("text");
-			this.#via = this.getAttribute("via");
-			this.#showIcon = showIcon ? showIcon !== "false" : false;
-			this.#iconOnly = iconOnly ? iconOnly !== "false" : false;
-			if (this.#iconOnly) {
-				this.#showIcon = true;
-			}
+			return server;
+		}
 
-			// Translatable props
-			this.#setString("anchor_text", this.getAttribute("label"));
-			this.#setString(
-				"anchor_text_explainer",
-				this.getAttribute("label-explainer"),
-			);
-			this.#setString("edit_text", this.getAttribute("edit-text"));
-			this.#setString("dialog_label", this.getAttribute("dialog-label"));
-			this.#setString("dialog_hint", this.getAttribute("dialog-hint"));
-			this.#setString(
-				"dialog_hint_invalid",
-				this.getAttribute("dialog-hint-invalid"),
-			);
-			this.#setString("dialog_save", this.getAttribute("dialog-save"));
-			this.#setString("dialog_cancel", this.getAttribute("dialog-cancel"));
-
-			if (!this.getAttribute("id")) {
-				this.setAttribute("id", `${this.#name}-${this.#id}`);
-			}
-
+		/**
+		 * @private build DOM elements (anchor, icon, edit button, dialog, stylesheet)
+		 * ----------------------------- */
+		#buildDOM() {
 			if (!this.#anchor) {
 				this.#createAnchor(this.textContent);
 			} else {
@@ -193,13 +164,57 @@ customElements.define(
 			if (!document.getElementById(`${this.#name}-css`)) {
 				this.#createStyleSheet();
 			}
+		}
 
-			/**
-			 * Attach event listeners
-			 *
-			 * We use the handleEvent() method for this as it
-			 * makes managing event listeners inside a custom element much easier.
-			 */
+		/**
+		 * @private initialize the component
+		 * @returns {ThisType}
+		 * ----------------------------- */
+		#init() {
+			if (this.#isInitialized) return;
+
+			// Read server from attributes, global state, and storage
+			this.#readServerConfig();
+
+			// Setup component properties
+			this.#lang = this.#detectLang();
+			this.#name = this.tagName.toLowerCase();
+			this.#anchor = this.querySelector("a");
+			this.#text = this.getAttribute("text");
+			this.#via = this.getAttribute("via");
+
+			const showIcon = this.getAttribute("show-icon");
+			const iconOnly = this.getAttribute("icon-only");
+			this.#showIcon = showIcon ? showIcon !== "false" : false;
+			this.#iconOnly = iconOnly ? iconOnly !== "false" : false;
+			if (this.#iconOnly) {
+				this.#showIcon = true;
+			}
+
+			// Setup translatable strings
+			this.#setString("anchor_text", this.getAttribute("label"));
+			this.#setString(
+				"anchor_text_explainer",
+				this.getAttribute("label-explainer"),
+			);
+			this.#setString("edit_text", this.getAttribute("edit-text"));
+			this.#setString("dialog_label", this.getAttribute("dialog-label"));
+			this.#setString("dialog_hint", this.getAttribute("dialog-hint"));
+			this.#setString(
+				"dialog_hint_invalid",
+				this.getAttribute("dialog-hint-invalid"),
+			);
+			this.#setString("dialog_save", this.getAttribute("dialog-save"));
+			this.#setString("dialog_cancel", this.getAttribute("dialog-cancel"));
+
+			if (!this.getAttribute("id")) {
+				this.setAttribute("id", `${this.#name}-${this.#id}`);
+			}
+
+			// Build DOM elements
+			this.#buildDOM();
+
+			// Attach event listeners
 			this.addEventListener("click", this);
 
 			ShareMastodon.#instances.add(this);
@@ -514,7 +529,7 @@ customElements.define(
 			dialog.classList.add(`${this.#name}__dialog-is-invalid`);
 			const hint = dialog.querySelector(`.${this.#name}__dialog-hint`);
 			if (hint) {
-				hint.innerText = this.#getString("dialog_hint_invalid").replace(
+				hint.textContent = this.#getString("dialog_hint_invalid").replace(
 					"%SERVER%",
 					detail,
 				);
@@ -532,16 +547,16 @@ customElements.define(
 			dialog.classList.remove(`${this.#name}__dialog-is-invalid`);
 			const hint = dialog.querySelector(`.${this.#name}__dialog-hint`);
 			if (hint) {
-				hint.innerText = this.#getString("dialog_hint");
+				hint.textContent = this.#getString("dialog_hint");
 			}
 		}
 
 		/**
 		 * Create an <a> anchor for our instance
-		 * @param {string} _innerText
+		 * @param {string} _textContent
 		 * ----------------------------- */
-		#createAnchor(_innerText) {
-			if (!_innerText) return;
+		#createAnchor(_textContent) {
+			if (!_textContent) return;
 			const text = [
 				`${this.#text || document.title}`,
 				location.href,
@@ -555,7 +570,7 @@ customElements.define(
 				`https://share.joinmastodon.org/#text=${encodeURIComponent(text)}`,
 			);
 			this.#anchor.classList.add(`${this.#name}__link`);
-			this.#anchor.innerText = _innerText;
+			this.#anchor.textContent = _textContent;
 			this.#updateAnchor();
 			this.innerHTML = "";
 			this.append(this.#anchor);
@@ -573,8 +588,6 @@ customElements.define(
 			this.#anchor.setAttribute("target", "_blank");
 			this.#anchor.setAttribute("rel", "noreferrer noopener");
 			this.#anchor.classList.add(`${this.#name}__link`);
-			// this.#anchor.textContent = this.#getString("anchor_text");
-			this.#anchor.textContent = null;
 
 			const textContent = document.createElement("span");
 			textContent.classList.add(`${this.#name}__text`);

@@ -58,7 +58,7 @@ Add test infrastructure using `@web/test-runner`. Real-browser testing, purpose-
 
 ### Step 2 — Bug Fixes
 **Branch:** `fix/bugs`  
-**Status:** Awaiting Step 1 (tests)
+**Status:** ✅ Complete
 
 Fix the 3 bugs identified above. Verified by Step 1 tests.
 
