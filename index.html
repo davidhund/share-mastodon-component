@@ -439,15 +439,26 @@
 		});
 	});
 
-	// Language switcher
+	// Language switcher - recreate component when language changes
 	const langSelect = document.getElementById('lang-select');
 	const localeDemo = document.getElementById('locale-demo');
 	const localeCode = document.getElementById('locale-code');
 
-	if (langSelect) {
+	if (langSelect && localeDemo) {
 		langSelect.addEventListener('change', (e) => {
 			const lang = e.target.value;
-			localeDemo.setAttribute('lang', lang);
+
+			// Create new component with updated language
+			const newComponent = document.createElement('share-mastodon');
+			newComponent.id = 'locale-demo';
+			newComponent.setAttribute('lang', lang);
+			newComponent.setAttribute('show-icon', 'true');
+			newComponent.textContent = 'Share';
+
+			// Replace old component
+			localeDemo.replaceWith(newComponent);
+
+			// Update code snippet
 			localeCode.textContent = `&lt;share-mastodon lang="${lang}" show-icon="true"&gt;Share&lt;/share-mastodon&gt;`;
 		});
 	}
