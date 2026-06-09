@@ -401,45 +401,6 @@
 	<div id="event-log" class="event-output empty"></div>
 </div>
 
-<!-- ═════════════════════════════════════════ -->
-<div class="demo-section">
-	<h2 class="demo-section__title">Full Featured Example</h2>
-	<p>All features combined: preset server, icon, custom text, translated labels, and custom styling.</p>
-
-	<div class="demo-box">
-		<style>
-			#full-featured {
-				--share-mastodon-gap: .5em;
-				--share-mastodon-link-gap: .75em;
-			}
-		</style>
-		<share-mastodon
-			id="full-featured"
-			server="mastodon.social"
-			show-icon="true"
-			text="Check out this Web Component!"
-			via="@webdev@mastodon.social"
-			label="Share on Mastodon"
-			label-explainer="Click to share this on Mastodon"
-			edit-text="Change instance"
-			dialog-label="Your Mastodon instance:"
-			dialog-hint="e.g., mastodon.social or fosstodon.org"
-			dialog-hint-invalid="'%SERVER%' is not recognized"
-			dialog-save="Share"
-			dialog-cancel="Close"
-		></share-mastodon>
-	</div>
-	<pre>&lt;share-mastodon
-  server="mastodon.social"
-  show-icon="true"
-  text="Check out this Web Component!"
-  via="@webdev@mastodon.social"
-  label="Share on Mastodon"
-  dialog-label="Your Mastodon instance:"
-  dialog-hint="e.g., mastodon.social or fosstodon.org"
-&gt;&lt;/share-mastodon&gt;</pre>
-</div>
-
 <!-- Load component and optional locales -->
 <script type="module" src="./dist/share-mastodon.min.js"></script>
 <script type="module" src="./dist/locales/nl.js"></script>
