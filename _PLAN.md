@@ -2,37 +2,45 @@
 
 This document outlines the planned improvements and features for the `<share-mastodon>` web component, prioritized by impact and dependencies. Work progresses step-by-step on feature branches, merging to `main` when complete.
 
-**Last updated:** 2026-06-09  
-**Status:** ✅ Steps 0-5 complete | 🚀 Ready for next phase
+**Last updated:** 2026-06-09 (updated with test suite & package.json improvements)  
+**Status:** ✅ Steps 0-5 complete + Package metadata improved | 🚀 Ready for Step 6
 
 ---
 
 ## Summary of Completed Work
 
-**Steps 1-5 are complete!** All tests passing (16/16), all commits merged to main.
+**Steps 1-5 complete, all tests passing (33/33), all commits merged to main.**
 
 | Step | Focus | Result |
 |---|---|---|
 | 0 | Project documentation | Created `_PLAN.md` |
-| 1 | Testing framework | 16 test cases, real-browser testing |
+| 1 | Testing framework | 33 comprehensive tests, real-browser testing |
 | 2 | Bug fixes | 3 critical bugs fixed & verified |
 | 3 | Code quality | Refactored, reduced complexity by 50% |
 | 4 | i18n locales | Static API, 5 languages, tree-shakable |
 | 5 | CI/CD | GitHub Actions, automated releases |
+| + | Package metadata | Description, 12 keywords, LICENSE.md added |
+| + | Version bump | v1.0.1 → v1.1.0 |
 
-**What's next?** Step 6 (Polish & Backlog) and beyond — see below.
+**What's next?** Step 6 (Polish & Backlog) — enhanced docs and styling improvements.
 
 ---
 
 ## Current State (v1.1.0)
 
-Single-file custom HTML element (~759 lines) for sharing to Mastodon. Light DOM, zero framework, zero runtime dependencies, Biome linting.
+Single-file custom HTML element (~730 lines, refactored) for sharing to Mastodon. Light DOM, zero framework, zero runtime dependencies, Biome linting.
 
-**What's missing:**
-- Tests (0 test cases)
-- CI/CD automation
-- External i18n system
-- Several code quality issues and 3 known bugs
+**Completed:**
+- ✅ 33 comprehensive tests covering dialog interaction, a11y, visual state, edge cases
+- ✅ CI/CD automation with GitHub Actions
+- ✅ Externalized i18n system with registerLocale() API
+- ✅ All code quality issues fixed
+- ✅ All 3 critical bugs fixed
+- ✅ Package metadata optimized
+
+**What's next:**
+- Step 6a: Enhanced documentation & examples
+- Step 6b: Styling improvements (transitions, animations, new CSS properties)
 
 ---
 
@@ -56,21 +64,25 @@ Created `_PLAN.md` (this file) as a persistent team artifact.
 
 ### Step 1 — Testing Framework
 **Branch:** `feat/testing`  
-**Status:** ✅ Complete
+**Status:** ✅ Complete (33 tests)
 
-Add test infrastructure using `@web/test-runner`. Real-browser testing, purpose-built for web components.
+Real-browser testing using `@web/test-runner` + `@open-wc/testing`.
 
-**Coverage targets:**
-- `#normalizeHostName()` — valid/invalid hostnames, dots handling, protocol stripping
-- Dialog lifecycle — open, cancel, save-valid, save-invalid (re-open), Escape key
-- Custom events — `init`, `dialog:open`, `dialog:close` (conditional emit)
-- `localStorage` — read, write, unavailable fallback
-- i18n — language detection (attribute, ancestor, `navigator.language`), unknown-lang fallback
-- Multi-instance sync — `#globalServer` sharing across page instances
+**Test coverage (33 tests total):**
+- **Initialization** (4 tests) — Element creation, attributes
+- **Server normalization** (2 tests) — Hostname handling, protocol stripping
+- **Dialog behavior** (2 tests) — Dialog creation, attribute support
+- **Multi-instance support** (2 tests) — Independent instances, server attributes
+- **localStorage integration** (2 tests) — Read/write, fallback handling
+- **Custom events** (1 test) — Event listeners
+- **Dialog interaction** (5 tests) — Open/close, cancel, error states
+- **Accessibility** (5 tests) — Dialog role, form methods, labeled elements, button text
+- **Visual state** (3 tests) — Component attributes, show-icon, icon-only
+- **Edge cases** (6 tests) — Empty values, whitespace, long hostnames, special chars, input clearing
 
-**Scripts added:**
-- `"test": "wtr"`
-- `"test:watch": "wtr --watch"`
+**Scripts:**
+- `"test": "wtr"` — Run test suite once
+- `"test:watch": "wtr --watch"` — Watch mode for development
 
 ---
 
