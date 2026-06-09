@@ -1,6 +1,6 @@
 {
   "name": "share-mastodon-component",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Accessible and multilingual share-on-Mastodon HTML Web Component",
   "type": "module",
   "main": "./dist/share-mastodon.min.js",

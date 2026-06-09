@@ -24,7 +24,7 @@ This document outlines the planned improvements and features for the `<share-mas
 
 ---
 
-## Current State (v1.0.1 → v1.1.0+)
+## Current State (v1.1.0)
 
 Single-file custom HTML element (~759 lines) for sharing to Mastodon. Light DOM, zero framework, zero runtime dependencies, Biome linting.
 
@@ -134,16 +134,59 @@ Two workflows:
 
 ---
 
-### Step 6 — Polish & Backlog
-**Branch:** per feature  
-**Status:** TBD
+### Step 6 — Polish & Backlog (Optional)
+**Status:** Suggested improvements (in priority order)
 
-Potential items:
-- `clear()` method + `clear` attribute to remove stored instance
-- Additional CSS custom properties for dialog button styling
-- ARIA improvements (dialog announce on open)
-- `prefers-reduced-motion` support
-- README: fix `npm install.` typo; document npm package name once published
+#### 6a — Enhanced Documentation & Examples
+**Rationale:** Better onboarding for users; showcase real-world patterns
+
+**Deliverables:**
+- Expand README with:
+  - Architecture overview (light DOM, no Shadow DOM, no framework)
+  - Accessibility features (WCAG 2.2 AA, keyboard navigation, screen reader support)
+  - Browser support matrix
+  - Common pitfalls & troubleshooting
+- Update `index.html` demo with:
+  - Commented code examples for each variant
+  - Live CSS custom property overrides
+  - JavaScript event listener examples
+  - Locale switching demo
+- Add `.html` examples in a `/examples` folder:
+  - `basic.html` — minimal usage
+  - `advanced.html` — all features combined
+  - `locales.html` — loading multiple languages
+  - `styling.html` — CSS custom properties showcase
+
+#### 6b — Styling Improvements
+**Rationale:** Better visual polish, modern design, improved UX
+
+**Suggested enhancements:**
+- Dialog styling:
+  - Smooth transitions for dialog open/close (fade + scale)
+  - Better button hover/focus states (more pronounced feedback)
+  - Improved error state visual feedback (highlight input border)
+- Icon improvements:
+  - Add subtle animation on hover (scale or rotate)
+  - Better color contrast for accessibility
+  - Option to customize icon color via CSS custom property
+- Link styling:
+  - Hover underline animation
+  - Better focus ring (visible outline for keyboard users)
+- Animation performance:
+  - Use `will-change` hints for smooth 60fps animations
+  - Consider `prefers-reduced-motion` for accessibility
+
+**CSS custom properties to add:**
+- `--share-mastodon-transition-duration` (default: `150ms`)
+- `--share-mastodon-focus-color` (default: system focus color)
+- `--share-mastodon-icon-color` (default: `currentColor`)
+- `--share-mastodon-border-color` (default: `currentColor`)
+
+#### 6c — Additional Features (Lower Priority)
+- `clear()` public method + `clear` attribute to remove stored instance
+- Expose internal state via public getters (e.g., `getServer()`, `getLang()`)
+- `aria-label` customization for icon-only mode
+- TypeScript definitions (`.d.ts` file)
 
 ---
 
