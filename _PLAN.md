@@ -66,7 +66,7 @@ Fix the 3 bugs identified above. Verified by Step 1 tests.
 
 ### Step 3 — Code Quality & Cleanup
 **Branch:** `fix/code-quality`  
-**Status:** Awaiting Step 2
+**Status:** ✅ Complete
 
 - Change default language `"nl"` → `"en"` (more conventional for international component)
 - Standardize `innerText` → `textContent` (avoids layout reflow, works in SSR)
