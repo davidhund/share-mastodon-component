@@ -586,6 +586,9 @@ export class ShareMastodon extends HTMLElement {
 		this.#anchor.setAttribute("rel", "noreferrer noopener");
 		this.#anchor.classList.add(`${this.#name}__link`);
 
+		// Clear any existing text nodes before adding the span
+		this.#anchor.innerHTML = "";
+
 		const textContent = document.createElement("span");
 		textContent.classList.add(`${this.#name}__text`);
 		textContent.textContent = this.#getString("anchor_text");
