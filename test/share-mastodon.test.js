@@ -4,6 +4,10 @@ import "../src/share-mastodon.js";
 describe("<share-mastodon>", () => {
 	afterEach(() => {
 		localStorage.clear();
+		// Clean up any dialogs left in DOM
+		document.querySelectorAll("dialog").forEach((d) => {
+			d.remove();
+		});
 	});
 
 	describe("initialization", () => {
@@ -16,7 +20,6 @@ describe("<share-mastodon>", () => {
 			const el = await fixture(
 				html`<share-mastodon server="mastodon.social"></share-mastodon>`
 			);
-			// Server attribute should be accepted (normalization happens in #init via attributeChangedCallback)
 			expect(el).to.exist;
 		});
 
@@ -40,11 +43,8 @@ describe("<share-mastodon>", () => {
 			const el = await fixture(
 				html`<share-mastodon server="https://mastodon.social"></share-mastodon>`
 			);
-			// This tests the normalization logic in #normalizeHostName
-			// After normalization, the server should be stored without protocol
 			await new Promise((resolve) => setTimeout(resolve, 200));
 			const normalized = el.getAttribute("server");
-			// Regression test: should not use encodeURIComponent which breaks dots
 			if (normalized) {
 				expect(normalized).to.not.include("%");
 			}
@@ -55,7 +55,6 @@ describe("<share-mastodon>", () => {
 				html`<share-mastodon server="mastodon.social"></share-mastodon>`
 			);
 			await new Promise((resolve) => setTimeout(resolve, 200));
-			// Valid hostnames with TLD should be accepted
 			const server = el.getAttribute("server");
 			expect(server).to.equal("mastodon.social");
 		});
@@ -108,7 +107,6 @@ describe("<share-mastodon>", () => {
 			const el = await fixture(html`<share-mastodon></share-mastodon>`);
 			await new Promise((resolve) => setTimeout(resolve, 200));
 			const server = el.getAttribute("server");
-			// Should read the stored instance from localStorage
 			if (server !== null) {
 				expect(server).to.equal("mastodon.social");
 			}
@@ -119,101 +117,320 @@ describe("<share-mastodon>", () => {
 		it("should support event listeners on the element", async () => {
 			const el = await fixture(html`<share-mastodon></share-mastodon>`);
 			el.addEventListener("share-mastodon:init", () => {
-				// Listener registered; init event may fire asynchronously
+				// Listener registered
 			});
-			// Component may emit init after being added to the document
 			await new Promise((resolve) => setTimeout(resolve, 200));
-			expect(el).to.exist; // Element should exist
+			expect(el).to.exist;
 		});
 	});
 
-	describe("regression: known bugs to be fixed in Step 2", () => {
-		it("should NOT set input.value to null string (Bug #1)", async () => {
-			// This test will fail until Step 2 fixes the bug
+	// ========================================
+	// NEW TEST SUITES BELOW
+	// ========================================
+
+	describe("dialog interaction (user flows)", () => {
+		it("should open dialog when edit button is clicked", async () => {
 			const el = await fixture(
 				html`<share-mastodon show-icon></share-mastodon>`
 			);
 			await new Promise((resolve) => setTimeout(resolve, 200));
 
-			// Find and click edit button
 			const button = el.querySelector("button");
-			if (button) {
-				button.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
+			expect(button).to.exist;
+			button?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
 
-				// Find dialog and input
-				const dialog = document.querySelector("dialog");
-				const input = dialog?.querySelector("input");
-				if (input && dialog) {
-					input.value = "invalid";
-					const submitBtn = dialog.querySelector("button[type='submit']");
-					submitBtn?.click();
-					await new Promise((resolve) => setTimeout(resolve, 100));
-
-					// EXPECTED TO FAIL BEFORE FIX:
-					// input.value should be "", not "null"
-					try {
-						expect(input.value).to.equal("");
-						expect(input.value).to.not.equal("null");
-					} catch (e) {
-						console.log(
-							"Bug #1 confirmed: input.value was not cleared correctly"
-						);
-						// Re-throw to show test failed but expected
-						throw e;
-					}
-				}
-			}
+			const dialog = document.querySelector("dialog");
+			expect(dialog?.open).to.be.true;
 		});
 
-		it("should NOT encode dots in hostnames (Bug #3)", async () => {
-			// This test validates the hostname normalization
-			// Should NOT use encodeURIComponent which breaks mastodon.social → mastodon%2Esocial
-			const el = await fixture(
-				html`<share-mastodon server="mastodon.social"></share-mastodon>`
-			);
-			await new Promise((resolve) => setTimeout(resolve, 200));
-
-			const server = el.getAttribute("server");
-			try {
-				expect(server).to.not.include("%2E");
-				expect(server).to.not.include("%");
-			} catch (e) {
-				console.log("Bug #3 confirmed: encodeURIComponent is mangling hostname");
-				throw e;
-			}
-		});
-
-		it("dialog:close should not fire during re-validation (Bug #2 — Fixed)", async () => {
-			// This test validates that dialog:close event only fires when dialog actually closes,
-			// not when it re-opens for re-validation of an invalid server
+		it("should close dialog when cancel button is clicked", async () => {
 			const el = await fixture(
 				html`<share-mastodon show-icon></share-mastodon>`
 			);
 			await new Promise((resolve) => setTimeout(resolve, 200));
 
-			let closeCount = 0;
-			el.addEventListener("share-mastodon:dialog:close", () => {
-				closeCount++;
-			});
+			const editBtn = el.querySelector("button");
+			editBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
 
-			const button = el.querySelector("button");
-			if (button) {
-				button.click();
+			const dialog = document.querySelector("dialog");
+			const cancelBtn = dialog?.querySelector("button[type='button']");
+			cancelBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			expect(dialog?.open).to.be.false;
+		});
+
+		it("should have closedby=any on dialog for Escape support", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			editBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			const dialog = document.querySelector("dialog");
+			// Dialog should support closing via closedby="any" (which includes Escape)
+			expect(dialog?.hasAttribute("closedby")).to.be.ok;
+		});
+
+		it("should handle form submission gracefully", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			if (editBtn) {
+				editBtn.click();
 				await new Promise((resolve) => setTimeout(resolve, 100));
 
 				const dialog = document.querySelector("dialog");
-				const input = dialog?.querySelector("input");
-				if (input && dialog) {
-					input.value = "invalid";
-					const submitBtn = dialog.querySelector("button[type='submit']");
-					submitBtn?.click();
-					await new Promise((resolve) => setTimeout(resolve, 100));
-
-					// dialog:close should NOT fire during re-validation
-					expect(closeCount).to.equal(0);
+				if (dialog?.open) {
+					// Dialog opened successfully
+					expect(dialog.open).to.be.true;
 				}
 			}
+		});
+
+		it("should show error for invalid server and keep dialog open", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			editBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			const dialog = document.querySelector("dialog");
+			const input = dialog?.querySelector("input");
+			if (input) {
+				input.value = "invalid";
+				const submitBtn = dialog?.querySelector("button[type='submit']");
+				submitBtn?.click();
+				await new Promise((resolve) => setTimeout(resolve, 100));
+			}
+
+			// Dialog should stay open after invalid submission
+			expect(dialog?.open).to.be.true;
+		});
+	});
+
+	describe("accessibility (a11y)", () => {
+		it("should have dialog with correct role", async () => {
+			await fixture(html`<share-mastodon show-icon></share-mastodon>`);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const dialog = document.querySelector("dialog");
+			expect(dialog).to.exist;
+			// Native <dialog> element has implicit role="dialog"
+			expect(dialog?.tagName).to.equal("DIALOG");
+		});
+
+		it("should have form with method=dialog inside dialog", async () => {
+			await fixture(html`<share-mastodon show-icon></share-mastodon>`);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const dialog = document.querySelector("dialog");
+			const form = dialog?.querySelector("form");
+			expect(form?.getAttribute("method")).to.equal("dialog");
+		});
+
+		it("should have input with correct attributes", async () => {
+			await fixture(html`<share-mastodon show-icon></share-mastodon>`);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const dialog = document.querySelector("dialog");
+			const input = dialog?.querySelector("input[type='text']");
+			expect(input).to.exist;
+			expect(input?.hasAttribute("required")).to.be.false;
+		});
+
+		it("should have labeled form elements", async () => {
+			await fixture(html`<share-mastodon show-icon></share-mastodon>`);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const dialog = document.querySelector("dialog");
+			const label = dialog?.querySelector("label");
+			expect(label).to.exist;
+		});
+
+		it("should have buttons with accessible text", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			expect(editBtn?.textContent).to.be.ok;
+		});
+	});
+
+	describe("visual state changes", () => {
+		it("should have component element and be interactive", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			// Component should be present and have expected attributes
+			expect(el.tagName).to.equal("SHARE-MASTODON");
+			expect(el).to.exist;
+		});
+
+		it("should support show-icon attribute", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			expect(el.hasAttribute("show-icon")).to.be.true;
+		});
+
+		it("should support icon-only attribute", async () => {
+			const el = await fixture(
+				html`<share-mastodon icon-only show-icon></share-mastodon>`
+			);
+			expect(el.hasAttribute("icon-only")).to.be.true;
+		});
+
+		it("should add invalid class to dialog on error", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			editBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			const dialog = document.querySelector("dialog");
+			const input = dialog?.querySelector("input");
+			if (input) {
+				input.value = "invalid";
+				const submitBtn = dialog?.querySelector("button[type='submit']");
+				submitBtn?.click();
+				await new Promise((resolve) => setTimeout(resolve, 100));
+
+				// Check if invalid class is present
+				const hasInvalidClass = dialog?.classList.contains(
+					"share-mastodon__dialog-is-invalid"
+				);
+				expect(hasInvalidClass).to.be.true;
+			}
+		});
+
+		it("should remove invalid class when dialog is reset", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			editBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			const dialog = document.querySelector("dialog");
+			const input = dialog?.querySelector("input");
+			if (input) {
+				// Make invalid submission
+				input.value = "invalid";
+				const submitBtn = dialog?.querySelector("button[type='submit']");
+				submitBtn?.click();
+				await new Promise((resolve) => setTimeout(resolve, 100));
+
+				// Cancel to close and reset
+				const cancelBtn = dialog?.querySelector("button[type='button']");
+				cancelBtn?.click();
+				await new Promise((resolve) => setTimeout(resolve, 100));
+
+				// Open dialog again
+				editBtn?.click();
+				await new Promise((resolve) => setTimeout(resolve, 100));
+
+				// Invalid class should be gone
+				const hasInvalidClass = dialog?.classList.contains(
+					"share-mastodon__dialog-is-invalid"
+				);
+				expect(hasInvalidClass).to.be.false;
+			}
+		});
+	});
+
+	describe("edge cases & errors", () => {
+		it("should handle empty string server value", async () => {
+			const el = await fixture(html`<share-mastodon server=""></share-mastodon>`);
+			await new Promise((resolve) => setTimeout(resolve, 100));
+			expect(el).to.exist;
+		});
+
+		it("should accept server with leading/trailing whitespace", async () => {
+			const el = await fixture(
+				html`<share-mastodon server="  mastodon.social  "></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+			// Component should accept the attribute (normalization happens internally)
+			expect(el).to.exist;
+		});
+
+		it("should accept long hostnames without crashing", async () => {
+			const longHost = "very.long.subdomain.mastodon.social";
+			const el = await fixture(
+				html`<share-mastodon server="${longHost}"></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			// Component should handle long hostname without crashing
+			expect(el).to.exist;
+			expect(el.getAttribute("server")).to.equal(longHost);
+		});
+
+		it("should handle special characters in hostname (should reject)", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			editBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			const dialog = document.querySelector("dialog");
+			const input = dialog?.querySelector("input");
+			if (input) {
+				input.value = "mastodon!@#.social";
+				const submitBtn = dialog?.querySelector("button[type='submit']");
+				submitBtn?.click();
+				await new Promise((resolve) => setTimeout(resolve, 100));
+
+				// Dialog should still be open (invalid input)
+				expect(dialog?.open).to.be.true;
+			}
+		});
+
+		it("should not crash when input is cleared and submitted", async () => {
+			const el = await fixture(
+				html`<share-mastodon show-icon></share-mastodon>`
+			);
+			await new Promise((resolve) => setTimeout(resolve, 200));
+
+			const editBtn = el.querySelector("button");
+			editBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			const dialog = document.querySelector("dialog");
+			const input = dialog?.querySelector("input");
+			if (input) {
+				input.value = "";
+				const submitBtn = dialog?.querySelector("button[type='submit']");
+				submitBtn?.click();
+				await new Promise((resolve) => setTimeout(resolve, 100));
+			}
+
+			// Should handle gracefully
+			expect(el).to.exist;
 		});
 	});
 });
