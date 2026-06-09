@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/locales/fr.js"],
-  "sourcesContent": ["import { ShareMastodon } from \"../share-mastodon.js\";\n\nShareMastodon.registerLocale(\"fr\", {\n\tanchor_text: \"Partager sur Mastodon\",\n\tanchor_text_explainer:\n\t\t\"Pour partager cette page via Mastodon, veuillez d'abord entrer votre serveur instance.\",\n\tedit_text: \"Modifier le serveur\",\n\tdialog_label: \"Quel est votre serveur Mastodon?\",\n\tdialog_hint:\n\t\t\"Par exemple: mastodon.social, mastodon.online, mas.to ou social.overheid.nl.\",\n\tdialog_hint_invalid:\n\t\t\"'%SERVER%' n'est pas un nom de serveur valide tel que 'mastodon.social' ou 'social.overheid.nl'.\",\n\tdialog_cancel: \"Fermer\",\n\tdialog_save: \"Continuer\",\n});\n"],
-  "mappings": "AAAA,OAAS,iBAAAA,MAAqB,uBAE9BA,EAAc,eAAe,KAAM,CAClC,YAAa,wBACb,sBACC,yFACD,UAAW,sBACX,aAAc,mCACd,YACC,+EACD,oBACC,mGACD,cAAe,SACf,YAAa,WACd,CAAC",
+  "sourcesContent": ["import { ShareMastodon } from \"../share-mastodon.min.js\";\n\nShareMastodon.registerLocale(\"fr\", {\n\tanchor_text: \"Partager sur Mastodon\",\n\tanchor_text_explainer:\n\t\t\"Pour partager cette page via Mastodon, veuillez d'abord entrer votre serveur instance.\",\n\tedit_text: \"Modifier le serveur\",\n\tdialog_label: \"Quel est votre serveur Mastodon?\",\n\tdialog_hint:\n\t\t\"Par exemple: mastodon.social, mastodon.online, mas.to ou social.overheid.nl.\",\n\tdialog_hint_invalid:\n\t\t\"'%SERVER%' n'est pas un nom de serveur valide tel que 'mastodon.social' ou 'social.overheid.nl'.\",\n\tdialog_cancel: \"Fermer\",\n\tdialog_save: \"Continuer\",\n});\n"],
+  "mappings": "AAAA,OAAS,iBAAAA,MAAqB,2BAE9BA,EAAc,eAAe,KAAM,CAClC,YAAa,wBACb,sBACC,yFACD,UAAW,sBACX,aAAc,mCACd,YACC,+EACD,oBACC,mGACD,cAAe,SACf,YAAa,WACd,CAAC",
   "names": ["ShareMastodon"]
 }

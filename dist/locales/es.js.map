@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/locales/es.js"],
-  "sourcesContent": ["import { ShareMastodon } from \"../share-mastodon.js\";\n\nShareMastodon.registerLocale(\"es\", {\n\tanchor_text: \"Compartir en Mastodon\",\n\tanchor_text_explainer:\n\t\t\"Para compartir esta p\u00E1gina a trav\u00E9s de Mastodon, primero ingresa tu servidor de instancia.\",\n\tedit_text: \"Editar servidor\",\n\tdialog_label: \"\u00BFCu\u00E1l es tu servidor Mastodon?\",\n\tdialog_hint:\n\t\t\"Por ejemplo: mastodon.social, mastodon.online, mas.to o social.overheid.nl.\",\n\tdialog_hint_invalid:\n\t\t\"'%SERVER%' no es un nombre de servidor v\u00E1lido como 'mastodon.social' o 'social.overheid.nl'.\",\n\tdialog_cancel: \"Cerrar\",\n\tdialog_save: \"Continuar\",\n});\n"],
-  "mappings": "AAAA,OAAS,iBAAAA,MAAqB,uBAE9BA,EAAc,eAAe,KAAM,CAClC,YAAa,wBACb,sBACC,mGACD,UAAW,kBACX,aAAc,uCACd,YACC,8EACD,oBACC,kGACD,cAAe,SACf,YAAa,WACd,CAAC",
+  "sourcesContent": ["import { ShareMastodon } from \"../share-mastodon.min.js\";\n\nShareMastodon.registerLocale(\"es\", {\n\tanchor_text: \"Compartir en Mastodon\",\n\tanchor_text_explainer:\n\t\t\"Para compartir esta p\u00E1gina a trav\u00E9s de Mastodon, primero ingresa tu servidor de instancia.\",\n\tedit_text: \"Editar servidor\",\n\tdialog_label: \"\u00BFCu\u00E1l es tu servidor Mastodon?\",\n\tdialog_hint:\n\t\t\"Por ejemplo: mastodon.social, mastodon.online, mas.to o social.overheid.nl.\",\n\tdialog_hint_invalid:\n\t\t\"'%SERVER%' no es un nombre de servidor v\u00E1lido como 'mastodon.social' o 'social.overheid.nl'.\",\n\tdialog_cancel: \"Cerrar\",\n\tdialog_save: \"Continuar\",\n});\n"],
+  "mappings": "AAAA,OAAS,iBAAAA,MAAqB,2BAE9BA,EAAc,eAAe,KAAM,CAClC,YAAa,wBACb,sBACC,mGACD,UAAW,kBACX,aAAc,uCACd,YACC,8EACD,oBACC,kGACD,cAAe,SACf,YAAa,WACd,CAAC",
   "names": ["ShareMastodon"]
 }
