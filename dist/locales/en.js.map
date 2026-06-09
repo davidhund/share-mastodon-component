@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/locales/en.js"],
+  "sourcesContent": ["import { ShareMastodon } from \"../share-mastodon.js\";\n\nShareMastodon.registerLocale(\"en\", {\n\tanchor_text: \"Share on Mastodon\",\n\tanchor_text_explainer:\n\t\t\"To share this page via Mastodon, first enter your instance server.\",\n\tedit_text: \"Edit server\",\n\tdialog_label: \"What is your Mastodon server?\",\n\tdialog_hint:\n\t\t\"Examples: mastodon.social, mastodon.online, mas.to or social.overheid.nl.\",\n\tdialog_hint_invalid:\n\t\t\"'%SERVER%' is not a valid server name such as 'mastodon.social' or 'social.overheid.nl'.\",\n\tdialog_cancel: \"Close\",\n\tdialog_save: \"Continue\",\n});\n"],
+  "mappings": "AAAA,OAAS,iBAAAA,MAAqB,uBAE9BA,EAAc,eAAe,KAAM,CAClC,YAAa,oBACb,sBACC,qEACD,UAAW,cACX,aAAc,gCACd,YACC,4EACD,oBACC,2FACD,cAAe,QACf,YAAa,UACd,CAAC",
+  "names": ["ShareMastodon"]
+}

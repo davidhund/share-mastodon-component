@@ -8,13 +8,29 @@
   "exports": {
     ".": {
       "import": "./dist/share-mastodon.min.js"
+    },
+    "./locales/en": {
+      "import": "./dist/locales/en.js"
+    },
+    "./locales/nl": {
+      "import": "./dist/locales/nl.js"
+    },
+    "./locales/fr": {
+      "import": "./dist/locales/fr.js"
+    },
+    "./locales/de": {
+      "import": "./dist/locales/de.js"
+    },
+    "./locales/es": {
+      "import": "./dist/locales/es.js"
     }
   },
   "scripts": {
-    "format": "biome format --write ./src/*.js",
+    "format": "biome format --write ./src/**/*.js",
     "build:script": "esbuild src/share-mastodon.js --format=esm --target=es2020 --platform=browser --bundle --minify --sourcemap --outfile=dist/share-mastodon.min.js",
-    "build": "npm run format && npm run build:script",
-    "prepare": "npm run build:script",
+    "build:locales": "esbuild src/locales/en.js src/locales/nl.js src/locales/fr.js src/locales/de.js src/locales/es.js --format=esm --target=es2020 --platform=browser --minify --sourcemap --outdir=dist/locales",
+    "build": "npm run format && npm run build:script && npm run build:locales",
+    "prepare": "npm run build:script && npm run build:locales",
     "prepublishOnly": "npm run build",
     "test": "wtr",
     "test:watch": "wtr --watch"

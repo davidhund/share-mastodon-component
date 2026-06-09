@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/locales/nl.js"],
+  "sourcesContent": ["import { ShareMastodon } from \"../share-mastodon.js\";\n\nShareMastodon.registerLocale(\"nl\", {\n\tanchor_text: \"Deel via Mastodon\",\n\tanchor_text_explainer:\n\t\t\"Om deze pagina te delen via Mastodon, voer je eerst je server in.\",\n\tedit_text: \"Server aanpassen\",\n\tdialog_label: \"Wat is je Mastodon server?\",\n\tdialog_hint:\n\t\t\"Bijvoorbeeld: mastodon.social, mastodon.online, mas.to of social.overheid.nl.\",\n\tdialog_hint_invalid:\n\t\t\"'%SERVER%' is geen geldige server naam zoals bijvoorbeeld 'mastodon.social' of 'social.overheid.nl'.\",\n\tdialog_cancel: \"Sluiten\",\n\tdialog_save: \"Ga verder\",\n});\n"],
+  "mappings": "AAAA,OAAS,iBAAAA,MAAqB,uBAE9BA,EAAc,eAAe,KAAM,CAClC,YAAa,oBACb,sBACC,oEACD,UAAW,mBACX,aAAc,6BACd,YACC,gFACD,oBACC,uGACD,cAAe,UACf,YAAa,WACd,CAAC",
+  "names": ["ShareMastodon"]
+}
