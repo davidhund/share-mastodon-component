@@ -5,14 +5,15 @@ Accessible, multilingual HTML Web Component that opens a Mastodon instance dialo
 - No framework dependency — plain JavaScript ES Module
 - Progressive enhancement: works as a plain link without JS
 - Remembers the user's Mastodon instance across visits
-- Built-in `en` / `nl` i18n; fully overridable via attributes
+- English built-in; additional languages (nl, fr, de, es) available as optional locale files
+- Fully overridable via attributes
 
-## DEMO
+## Demo
 
 ```bash
-npm install.   # Installs dev dependencies (only needed for building)
-npm run build  # Build to /dist
-npx serve .    # Run local webserver for index.html Demo-page
+npm install    # Install dev dependencies
+npm run build  # Build to /dist (source code + locales)
+npx serve .    # Run local webserver for index.html demo page
 ```
 
 ## Installation
@@ -49,7 +50,7 @@ Preferably with a no-JS fallback anchor:
 | Attribute | Description |
 |---|---|
 | `server` | Preset the Mastodon instance hostname (e.g. `mastodon.social`). Skips the dialog and goes directly to the share page. Also saved to `localStorage` and shared across all instances on the page. |
-| `lang` | Force the UI language (`en` / `nl`). Auto-detected from the document by default; falls back to `nl` with a console warning for unknown languages. |
+| `lang` | Force the UI language. Supported: `en` (built-in), `nl`, `fr`, `de`, `es` (require loading locale files). Auto-detected from the document by default. |
 | `show-icon` | Show the Mastodon SVG logo before the link. The icon has `role="presentation"` and is `1em` in size. |
 | `icon-only` | Show only the icon; link text is visually hidden but remains in the accessibility tree. Implies `show-icon`. |
 | `text` | Custom share text. Defaults to `document.title`. |
@@ -161,6 +162,44 @@ document.addEventListener('share-mastodon:dialog:close', (event) => {
 });
 ```
 
+## Localization
+
+The component ships with English built-in. Additional languages are available as optional locale files that must be explicitly loaded.
+
+### Built-in languages
+
+- `en` — English (built-in, no load needed)
+
+### Optional languages
+
+- `nl` — Dutch
+- `fr` — French
+- `de` — German
+- `es` — Spanish
+
+### Loading a locale
+
+```html
+<script type="module" src="./dist/share-mastodon.min.js"></script>
+<script type="module" src="./dist/locales/fr.js"></script>
+
+<!-- Now French is available -->
+<share-mastodon lang="fr">Partager sur Mastodon</share-mastodon>
+```
+
+Or via npm:
+
+```js
+import { ShareMastodon } from 'share-mastodon-component';
+import 'share-mastodon-component/locales/fr';
+
+// Now French is available
+```
+
+### Adding a new language
+
+Contribute a new locale file! Submit a pull request with a file like `src/locales/xx.js` where `xx` is the language code. Use the existing locale files as a template.
+
 ## Styles
 
 The component injects a minimal stylesheet once (light DOM — no Shadow DOM). All layout values are exposed as CSS custom properties so you can override them without touching the source.
@@ -208,9 +247,30 @@ The component injects a minimal stylesheet once (light DOM — no Shadow DOM). A
 
 ## Development
 
+**Requirements:** Node.js 20.x or later (22.x LTS recommended)
+
 ```bash
-npm run build   # format + bundle → dist/share-mastodon.min.js
+npm run build       # Format and bundle component + locales to /dist
+npm test            # Run test suite
+npm test -- --watch # Watch mode for development
+npm run format      # Format source code with Biome
 ```
+
+## Publishing
+
+This package uses automated releases via GitHub Actions and `release-please`:
+
+1. Merge pull requests to `main` using [Conventional Commits](https://www.conventionalcommits.org/) (`fix:`, `feat:`, `BREAKING CHANGE:`)
+2. A "Release PR" is automatically created with updated version and `CHANGELOG.md`
+3. Merge the Release PR to trigger automated publication to npm
+
+To publish manually:
+
+```bash
+npm publish
+```
+
+**Note:** Set the `NPM_TOKEN` secret in your GitHub repository settings to enable automated publishing.
 
 ## License
 
