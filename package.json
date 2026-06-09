@@ -1,7 +1,7 @@
 {
   "name": "share-mastodon-component",
   "version": "1.1.0",
-  "description": "Accessible and multilingual share-on-Mastodon HTML Web Component",
+  "description": "Framework-free HTML Web Component to add Mastodon sharing to any site—with accessibility, multi-language support, and zero dependencies",
   "type": "module",
   "main": "./dist/share-mastodon.min.js",
   "module": "./dist/share-mastodon.min.js",
@@ -40,11 +40,18 @@
     "url": "git+https://github.com/davidhund/share-mastodon-component.git"
   },
   "keywords": [
-    "mastodon",
+    "web-component",
     "share",
-    "web component",
-    "social media",
-    "accessible"
+    "mastodon",
+    "fediverse",
+    "accessible",
+    "a11y",
+    "i18n",
+    "localization",
+    "social-sharing",
+    "lightweight",
+    "no-dependencies",
+    "html5"
   ],
   "author": "davidhund",
   "license": "EUPL-1.2",

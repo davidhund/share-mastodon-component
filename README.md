@@ -274,4 +274,6 @@ npm publish
 
 ## License
 
-[EUPL-1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
+[EUPL-1.2](./LICENSE.txt) — See [LICENSE.txt](./LICENSE.txt) for full details.
+
+**Summary:** Open source with copyleft protection. You can use, modify, and distribute this component freely, but any modifications must also be open source under EUPL-1.2 or a compatible license.
