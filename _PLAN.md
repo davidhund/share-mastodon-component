@@ -2,11 +2,29 @@
 
 This document outlines the planned improvements and features for the `<share-mastodon>` web component, prioritized by impact and dependencies. Work progresses step-by-step on feature branches, merging to `main` when complete.
 
-**Last updated:** 2026-06-09
+**Last updated:** 2026-06-09  
+**Status:** ✅ Steps 0-5 complete | 🚀 Ready for next phase
 
 ---
 
-## Current State (v1.0.1)
+## Summary of Completed Work
+
+**Steps 1-5 are complete!** All tests passing (16/16), all commits merged to main.
+
+| Step | Focus | Result |
+|---|---|---|
+| 0 | Project documentation | Created `_PLAN.md` |
+| 1 | Testing framework | 16 test cases, real-browser testing |
+| 2 | Bug fixes | 3 critical bugs fixed & verified |
+| 3 | Code quality | Refactored, reduced complexity by 50% |
+| 4 | i18n locales | Static API, 5 languages, tree-shakable |
+| 5 | CI/CD | GitHub Actions, automated releases |
+
+**What's next?** Step 6 (Polish & Backlog) and beyond — see below.
+
+---
+
+## Current State (v1.0.1 → v1.1.0+)
 
 Single-file custom HTML element (~759 lines) for sharing to Mastodon. Light DOM, zero framework, zero runtime dependencies, Biome linting.
 
@@ -18,13 +36,13 @@ Single-file custom HTML element (~759 lines) for sharing to Mastodon. Light DOM,
 
 ---
 
-## Bugs (High Priority)
+## Bugs (All Fixed in Step 2)
 
 | Bug | Impact | Branch | Status |
 |---|---|---|---|
-| `input.value = null` coerces to string `"null"` instead of clearing (line 471) | Dialog input not cleared after invalid submission | `fix/bugs` | Pending |
-| `dialog:close` event fires even when dialog re-opens for re-validation (line 500) | Event consumers get wrong signal about dialog state | `fix/bugs` | Pending |
-| `encodeURIComponent()` mangles hostnames with dots (line 352) | `mastodon.social` becomes `mastodon%2Esocial`, breaks normalization | `fix/bugs` | Pending |
+| `input.value = null` coerces to string `"null"` instead of clearing (line 471) | Dialog input not cleared after invalid submission | `fix/bugs` | ✅ Fixed |
+| `dialog:close` event fires even when dialog re-opens for re-validation (line 500) | Event consumers get wrong signal about dialog state | `fix/bugs` | ✅ Fixed |
+| `encodeURIComponent()` mangles hostnames with dots (line 352) | `mastodon.social` becomes `mastodon%2Esocial`, breaks normalization | `fix/bugs` | ✅ Fixed |
 
 ---
 
@@ -91,9 +109,9 @@ Externalize translations into tree-shakable, CDN-friendly language packs.
 ```
 
 **Locales included:**
-- `en` (English)
-- `nl` (Dutch)
-- `fr`, `de`, `es` (stubs, crowd-sourceable)
+- `en` (English, built-in)
+- `nl` (Dutch, optional)
+- `fr`, `de`, `es` (French, German, Spanish, optional & crowd-sourceable)
 
 ---
 
