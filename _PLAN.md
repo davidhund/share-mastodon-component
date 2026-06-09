@@ -22,6 +22,7 @@ This document outlines the planned improvements and features for the `<share-mas
 | + | Package metadata | Description, 12 keywords, LICENSE.md added |
 | + | Version bump | v1.0.1 → v1.1.0 |
 | 6a | Enhanced documentation & examples | README expanded, index.html refactored with comprehensive examples |
+| + | Version bump | v1.1.0 → v1.1.1 |
 
 **What's next?** Step 6b (Styling improvements) is deferred — bare-bones styling is stable.
 
