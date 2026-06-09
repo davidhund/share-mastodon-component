@@ -184,8 +184,7 @@ describe("<share-mastodon>", () => {
 			}
 		});
 
-		it.skip("dialog:close should not fire during re-validation (Bug #2)", async () => {
-			// TODO: Enable after fixing Bug #2 in Step 2
+		it("dialog:close should not fire during re-validation (Bug #2 — Fixed)", async () => {
 			// This test validates that dialog:close event only fires when dialog actually closes,
 			// not when it re-opens for re-validation of an invalid server
 			const el = await fixture(

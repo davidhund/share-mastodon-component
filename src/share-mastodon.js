@@ -349,7 +349,7 @@ customElements.define(
 			if (trimmed.match(/[!)(]/)) return null;
 			if (encodeURIComponent(trimmed).match(/%\d/)) return null;
 			try {
-				const instanceUrl = new URL(`https://${encodeURIComponent(trimmed)}`);
+				const instanceUrl = new URL(`https://${trimmed}`);
 				return instanceUrl.hostname;
 			} catch {
 				return null;
@@ -457,6 +457,7 @@ customElements.define(
 			if (!dialog) return;
 
 			this.#resetDialogState();
+			let shouldEmitClose = true;
 			if (dialog.returnValue === "save") {
 				// save: update instance value
 				const input = dialog.querySelector('input[type="text"]');
@@ -468,14 +469,15 @@ customElements.define(
 					updated = this.#normalizeHostName(input.value);
 					if (!updated) {
 						this.#setDialogInvalidState(encodeURIComponent(input.value));
-						input.value = updated;
+						input.value = "";
+						shouldEmitClose = false;
 					} else {
 						input.value = updated;
 						dialog.returnValue = updated;
 					}
 				}
 
-				if (updated !== ShareMastodon.#globalServer) {
+				if (shouldEmitClose && updated !== ShareMastodon.#globalServer) {
 					if (updated) {
 						this.#setInstance(updated);
 
@@ -497,7 +499,9 @@ customElements.define(
 				}
 			}
 
-			this.#emit("dialog:close", dialog.returnValue);
+			if (shouldEmitClose) {
+				this.#emit("dialog:close", dialog.returnValue);
+			}
 		}
 
 		/**

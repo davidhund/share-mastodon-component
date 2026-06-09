@@ -38,7 +38,7 @@ Created `_PLAN.md` (this file) as a persistent team artifact.
 
 ### Step 1 — Testing Framework
 **Branch:** `feat/testing`  
-**Status:** Not started
+**Status:** ✅ Complete
 
 Add test infrastructure using `@web/test-runner`. Real-browser testing, purpose-built for web components.
 
