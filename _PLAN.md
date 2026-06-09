@@ -2,14 +2,14 @@
 
 This document outlines the planned improvements and features for the `<share-mastodon>` web component, prioritized by impact and dependencies. Work progresses step-by-step on feature branches, merging to `main` when complete.
 
-**Last updated:** 2026-06-09 (updated with test suite & package.json improvements)  
-**Status:** ✅ Steps 0-5 complete + Package metadata improved | 🚀 Ready for Step 6
+**Last updated:** 2026-06-09 (Steps 0-5 complete, Step 6a documentation complete)  
+**Status:** ✅ Steps 0-5 complete + Step 6a (Documentation) complete | ⏭️ Step 6b (Styling) deferred
 
 ---
 
 ## Summary of Completed Work
 
-**Steps 1-5 complete, all tests passing (33/33), all commits merged to main.**
+**Steps 1-5 + Step 6a complete, all tests passing (33/33), all commits merged to main.**
 
 | Step | Focus | Result |
 |---|---|---|
@@ -21,8 +21,9 @@ This document outlines the planned improvements and features for the `<share-mas
 | 5 | CI/CD | GitHub Actions, automated releases |
 | + | Package metadata | Description, 12 keywords, LICENSE.md added |
 | + | Version bump | v1.0.1 → v1.1.0 |
+| 6a | Enhanced documentation & examples | README expanded, index.html refactored with comprehensive examples |
 
-**What's next?** Step 6 (Polish & Backlog) — enhanced docs and styling improvements.
+**What's next?** Step 6b (Styling improvements) is deferred — bare-bones styling is stable.
 
 ---
 
@@ -37,10 +38,11 @@ Single-file custom HTML element (~730 lines, refactored) for sharing to Mastodon
 - ✅ All code quality issues fixed
 - ✅ All 3 critical bugs fixed
 - ✅ Package metadata optimized
+- ✅ Enhanced documentation with architecture, a11y, browser support, troubleshooting
+- ✅ Interactive examples in index.html (11 example sections, live event logging, locale switching demo, CSS property showcase)
 
 **What's next:**
-- Step 6a: Enhanced documentation & examples
-- Step 6b: Styling improvements (transitions, animations, new CSS properties)
+- ⏭️ Step 6b: Styling improvements (deferred) — transitions, animations, new CSS properties
 
 ---
 
@@ -147,27 +149,27 @@ Two workflows:
 ---
 
 ### Step 6 — Polish & Backlog (Optional)
-**Status:** Suggested improvements (in priority order)
 
 #### 6a — Enhanced Documentation & Examples
-**Rationale:** Better onboarding for users; showcase real-world patterns
+**Branch:** `feat/documentation`  
+**Status:** ✅ Complete
 
-**Deliverables:**
-- Expand README with:
-  - Architecture overview (light DOM, no Shadow DOM, no framework)
+**Deliverables completed:**
+- ✅ Expanded README with:
+  - Architecture overview (light DOM, vanilla JS, no framework)
   - Accessibility features (WCAG 2.2 AA, keyboard navigation, screen reader support)
-  - Browser support matrix
-  - Common pitfalls & troubleshooting
-- Update `index.html` demo with:
-  - Commented code examples for each variant
-  - Live CSS custom property overrides
-  - JavaScript event listener examples
-  - Locale switching demo
-- Add `.html` examples in a `/examples` folder:
-  - `basic.html` — minimal usage
-  - `advanced.html` — all features combined
-  - `locales.html` — loading multiple languages
-  - `styling.html` — CSS custom properties showcase
+  - Browser support matrix (Chrome 90+, Firefox 88+, Safari 15+)
+  - Troubleshooting section (common pitfalls, localStorage, locale issues, styling)
+  - Getting Started guide with demo instructions
+- ✅ Refactored `index.html` with:
+  - Prominent instructions for running demo locally
+  - 11 example sections (minimal, progressive enhancement, presets, icons, custom text, i18n, CSS properties, class names, events, full featured)
+  - Live event logging dashboard (shows dialog:open/close/init events with timestamps)
+  - Interactive locale switcher with 5 languages
+  - CSS custom properties showcase with override examples
+  - CSS class names reference table
+  - All examples include commented code snippets
+- ⏭️ Skipped `/examples` folder as requested (using single `index.html` instead)
 
 #### 6b — Styling Improvements
 **Rationale:** Better visual polish, modern design, improved UX

@@ -8,26 +8,47 @@ Accessible, multilingual HTML Web Component that opens a Mastodon instance dialo
 - English built-in; additional languages (nl, fr, de, es) available as optional locale files
 - Fully overridable via attributes
 
-## Demo
+## Getting Started
 
 ```bash
 npm install    # Install dev dependencies
 npm run build  # Build to /dist (source code + locales)
-npx serve .    # Run local webserver for index.html demo page
 ```
+
+Then view the demo page:
+
+```bash
+npx serve .    # Start local server, then open http://localhost:3000/index.html
+```
+
+The `index.html` file includes interactive examples you can use as a reference for all features and styling options. Open your browser's **Developer Console** to see custom events being logged in real-time.
+
+## Architecture
+
+The component is a **single-file Web Component** (~730 lines) with no external dependencies:
+
+- **Light DOM** — renders directly to the page (no Shadow DOM), so all styles are inherited and all selectors work
+- **Vanilla JavaScript** — no framework required; works in any HTML environment
+- **Progressive enhancement** — works without JavaScript (graceful fallback to standard link)
+- **Storage** — remembers the user's server choice via `localStorage` (shared across all instances on the page)
+- **Accessibility-first** — WCAG 2.2 AA compliance with full keyboard navigation and screen reader support
+
+**What it does:**
+1. Wraps your link text (or an existing `<a>` element)
+2. Intercepts clicks to show a modal dialog
+3. Saves the server hostname to `localStorage`
+4. Redirects to the official Mastodon share flow
+5. Emits custom events for advanced integrations
 
 ## Installation
 
-```bash
-# TODO
-npm install share-mastodon-component
-```
-
-Or use the built file directly:
+Currently distributed as source code. To use in your project:
 
 ```html
-<script type="module" src="./dist/share-mastodon.min.js"></script>
+<script type="module" src="./path/to/dist/share-mastodon.min.js"></script>
 ```
+
+(NPM package coming soon)
 
 ## Basic usage
 
@@ -114,6 +135,34 @@ Preferably with a no-JS fallback anchor:
   dialog-cancel="Cancel"
 >Share this page</share-mastodon>
 ```
+
+## Accessibility
+
+This component is built with accessibility as a core principle:
+
+- **WCAG 2.2 Level AA** — compliant with Web Content Accessibility Guidelines
+- **Keyboard navigation** — fully operable with Tab, Enter, Escape keys
+- **Screen reader friendly** — semantic HTML with proper ARIA labels and roles
+- **Focus management** — visible focus indicators; focus returns to trigger after dialog closes
+- **Dialog semantics** — uses native `<dialog>` element with proper role and aria-labelledby
+- **Color contrast** — meets minimum AA contrast ratios
+- **Respects motion preferences** — no forced animations (future enhancement)
+
+## Browser Support
+
+Requires **modern browsers** with support for:
+- ES Modules (`import` / `export`)
+- Custom Elements (Web Components)
+- `<dialog>` element
+- `localStorage`
+
+**Tested on:**
+- Chrome/Edge 90+
+- Firefox 88+
+- Safari 15+
+- Mobile browsers (iOS Safari 15+, Android Chrome 90+)
+
+**Polyfills:** For older browsers, you'll need polyfills for Custom Elements and the `<dialog>` element.
 
 ## Custom events
 
@@ -244,6 +293,37 @@ The component injects a minimal stylesheet once (light DOM — no Shadow DOM). A
 | `share-mastodon__dialog-cancel` | `<button>` | Cancel / close button |
 | `share-mastodon__dialog-cancel-text` | `<span>` | Text inside the cancel button |
 | `share-mastodon__dialog-is-invalid` | modifier on `<dialog>` | Added when the entered server fails validation |
+
+## Troubleshooting
+
+### Component not showing up
+- Ensure you've run `npm run build` to generate the `/dist` folder
+- Verify the script tag points to the correct path: `./dist/share-mastodon.min.js`
+- Check browser console for errors
+
+### Dialog doesn't open when I click the link
+- Verify JavaScript is enabled
+- Check that `<share-mastodon>` tag is properly closed
+- Open browser console to see any error messages
+- For IE11: this component does not support IE11 (requires ES6+ and `<dialog>`)
+
+### localStorage not persisting across page loads
+- Ensure the user hasn't disabled cookies/storage in their browser settings
+- Check if the app is running in a private/incognito window (localStorage disabled by default)
+- Verify the browser isn't configured to clear storage on exit
+
+### Locale not switching
+- Confirm you've loaded the locale file *before* creating component instances:
+  ```html
+  <script type="module" src="./dist/share-mastodon.min.js"></script>
+  <script type="module" src="./dist/locales/fr.js"></script>
+  ```
+- Set the `lang` attribute *after* loading the locale
+
+### Styling not applying
+- Remember: the component uses **light DOM** (not Shadow DOM), so CSS cascade and specificity apply normally
+- To override styles, use CSS custom properties or target the BEM classnames (see "Styles" section)
+- Avoid using too-specific selectors that might conflict with your page styles
 
 ## Development
 
