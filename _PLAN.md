@@ -99,7 +99,7 @@ Externalize translations into tree-shakable, CDN-friendly language packs.
 
 ### Step 5 — CI/CD (GitHub Actions)
 **Branch:** `feat/ci-cd`  
-**Status:** Awaiting Step 4
+**Status:** ✅ Complete
 
 Two workflows:
 
