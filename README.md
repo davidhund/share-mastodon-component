@@ -89,7 +89,7 @@ npm install share-mastodon-component
 For local development, clone the repository and build:
 
 ```bash
-git clone https://github.com/davidhund/share-mastodon-component.git
+git clone https://github.com/davidhund/mastodon-share-component.git
 cd share-mastodon-component
 npm install
 npm run build

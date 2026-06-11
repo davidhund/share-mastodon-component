@@ -1,6 +1,6 @@
 {
   "name": "share-mastodon-component",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Framework-free HTML Web Component to add Mastodon sharing to any site—with accessibility, multi-language support, and zero dependencies",
   "type": "module",
   "main": "./dist/share-mastodon.min.js",
@@ -37,7 +37,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davidhund/share-mastodon-component.git"
+    "url": "git+https://github.com/davidhund/mastodon-share-component.git"
   },
   "keywords": [
     "web-component",
@@ -56,9 +56,9 @@
   "author": "davidhund",
   "license": "EUPL-1.2",
   "bugs": {
-    "url": "https://github.com/davidhund/share-mastodon-component/issues"
+    "url": "https://github.com/davidhund/mastodon-share-component/issues"
   },
-  "homepage": "https://github.com/davidhund/share-mastodon-component#readme",
+  "homepage": "https://github.com/davidhund/mastodon-share-component#readme",
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
     "@open-wc/testing": "^4.0.0",
