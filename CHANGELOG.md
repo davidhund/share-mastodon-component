@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/davidhund/mastodon-share-component/compare/v1.0.1...v1.0.2) (2026-06-11)
+
+
+### Bug Fixes
+
+* repo-slug typo ([1c3a975](https://github.com/davidhund/mastodon-share-component/commit/1c3a975766395653ce3db6cabd6f64522526df39))
+
 ## [1.0.1](https://github.com/davidhund/mastodon-share-component/compare/v1.0.0...v1.0.1) (2026-06-11)
 
 
