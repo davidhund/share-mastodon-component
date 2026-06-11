@@ -10,6 +10,36 @@ Accessible, multilingual HTML Web Component that opens a Mastodon instance dialo
 
 ## Getting Started
 
+### Use in your project
+
+Install from npm:
+
+```bash
+npm install share-mastodon-component
+```
+
+Then import and use the component in your HTML:
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/share-mastodon-component/dist/share-mastodon.min.js"></script>
+
+<share-mastodon>
+  <a href="https://share.joinmastodon.org/#text=Check%20this%20out">Share via Mastodon</a>
+</share-mastodon>
+```
+
+Or via ES modules:
+
+```js
+import { ShareMastodon } from 'share-mastodon-component';
+```
+
+See [Basic usage](#basic-usage) and [Attributes](#attributes) below for more options.
+
+## Building
+
+For development and contributing:
+
 ```bash
 npm install    # Install dev dependencies
 npm run build  # Build to /dist (source code + locales)
@@ -42,13 +72,34 @@ The component is a **single-file Web Component** (~730 lines) with no external d
 
 ## Installation
 
-Currently distributed as source code. To use in your project:
+### From npm (recommended)
+
+```bash
+npm install share-mastodon-component
+```
+
+### From CDN
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/share-mastodon-component/dist/share-mastodon.min.js"></script>
+```
+
+### From source
+
+For local development, clone the repository and build:
+
+```bash
+git clone https://github.com/davidhund/share-mastodon-component.git
+cd share-mastodon-component
+npm install
+npm run build
+```
+
+Then reference the built files:
 
 ```html
 <script type="module" src="./path/to/dist/share-mastodon.min.js"></script>
 ```
-
-(NPM package coming soon)
 
 ## Basic usage
 
@@ -327,7 +378,7 @@ The component injects a minimal stylesheet once (light DOM — no Shadow DOM). A
 
 ## Development
 
-**Requirements:** Node.js 20.x or later (22.x LTS recommended)
+**Requirements:** Node.js LTS or later
 
 ```bash
 npm run build       # Format and bundle component + locales to /dist
@@ -335,22 +386,6 @@ npm test            # Run test suite
 npm test -- --watch # Watch mode for development
 npm run format      # Format source code with Biome
 ```
-
-## Publishing
-
-This package uses automated releases via GitHub Actions and `release-please`:
-
-1. Merge pull requests to `main` using [Conventional Commits](https://www.conventionalcommits.org/) (`fix:`, `feat:`, `BREAKING CHANGE:`)
-2. A "Release PR" is automatically created with updated version and `CHANGELOG.md`
-3. Merge the Release PR to trigger automated publication to npm
-
-To publish manually:
-
-```bash
-npm publish
-```
-
-**Note:** Set the `NPM_TOKEN` secret in your GitHub repository settings to enable automated publishing.
 
 ## License
 
