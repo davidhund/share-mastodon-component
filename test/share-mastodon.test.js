@@ -1,6 +1,27 @@
 import { expect, fixture, html } from "@open-wc/testing";
 import "../src/share-mastodon.js";
 
+// Test helpers to reduce duplication
+async function openComponentDialog() {
+	const el = await fixture(html`<share-mastodon show-icon></share-mastodon>`);
+	await new Promise((resolve) => setTimeout(resolve, 200));
+	const editBtn = el.querySelector("button");
+	editBtn?.click();
+	await new Promise((resolve) => setTimeout(resolve, 100));
+	const dialog = document.querySelector("dialog");
+	return { el, editBtn, dialog };
+}
+
+async function submitDialogInput(dialog, value) {
+	const input = dialog?.querySelector("input");
+	if (input) {
+		input.value = value;
+		const submitBtn = dialog?.querySelector("button[type='submit']");
+		submitBtn?.click();
+		await new Promise((resolve) => setTimeout(resolve, 100));
+	}
+}
+
 describe("<share-mastodon>", () => {
 	afterEach(() => {
 		localStorage.clear();
@@ -197,25 +218,8 @@ describe("<share-mastodon>", () => {
 		});
 
 		it("should show error for invalid server and keep dialog open", async () => {
-			const el = await fixture(
-				html`<share-mastodon show-icon></share-mastodon>`
-			);
-			await new Promise((resolve) => setTimeout(resolve, 200));
-
-			const editBtn = el.querySelector("button");
-			editBtn?.click();
-			await new Promise((resolve) => setTimeout(resolve, 100));
-
-			const dialog = document.querySelector("dialog");
-			const input = dialog?.querySelector("input");
-			if (input) {
-				input.value = "invalid";
-				const submitBtn = dialog?.querySelector("button[type='submit']");
-				submitBtn?.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
-			}
-
-			// Dialog should stay open after invalid submission
+			const { dialog } = await openComponentDialog();
+			await submitDialogInput(dialog, "invalid");
 			expect(dialog?.open).to.be.true;
 		});
 	});
@@ -297,65 +301,29 @@ describe("<share-mastodon>", () => {
 		});
 
 		it("should add invalid class to dialog on error", async () => {
-			const el = await fixture(
-				html`<share-mastodon show-icon></share-mastodon>`
-			);
-			await new Promise((resolve) => setTimeout(resolve, 200));
-
-			const editBtn = el.querySelector("button");
-			editBtn?.click();
-			await new Promise((resolve) => setTimeout(resolve, 100));
-
-			const dialog = document.querySelector("dialog");
-			const input = dialog?.querySelector("input");
-			if (input) {
-				input.value = "invalid";
-				const submitBtn = dialog?.querySelector("button[type='submit']");
-				submitBtn?.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
-
-				// Check if invalid class is present
-				const hasInvalidClass = dialog?.classList.contains(
-					"share-mastodon__dialog-is-invalid"
-				);
-				expect(hasInvalidClass).to.be.true;
-			}
+			const { dialog } = await openComponentDialog();
+			await submitDialogInput(dialog, "invalid");
+			expect(
+				dialog?.classList.contains("share-mastodon__dialog-is-invalid")
+			).to.be.true;
 		});
 
 		it("should remove invalid class when dialog is reset", async () => {
-			const el = await fixture(
-				html`<share-mastodon show-icon></share-mastodon>`
-			);
-			await new Promise((resolve) => setTimeout(resolve, 200));
+			const { editBtn, dialog } = await openComponentDialog();
+			await submitDialogInput(dialog, "invalid");
 
-			const editBtn = el.querySelector("button");
+			// Cancel to close and reset
+			const cancelBtn = dialog?.querySelector("button[type='button']");
+			cancelBtn?.click();
+			await new Promise((resolve) => setTimeout(resolve, 100));
+
+			// Open dialog again
 			editBtn?.click();
 			await new Promise((resolve) => setTimeout(resolve, 100));
 
-			const dialog = document.querySelector("dialog");
-			const input = dialog?.querySelector("input");
-			if (input) {
-				// Make invalid submission
-				input.value = "invalid";
-				const submitBtn = dialog?.querySelector("button[type='submit']");
-				submitBtn?.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
-
-				// Cancel to close and reset
-				const cancelBtn = dialog?.querySelector("button[type='button']");
-				cancelBtn?.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
-
-				// Open dialog again
-				editBtn?.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
-
-				// Invalid class should be gone
-				const hasInvalidClass = dialog?.classList.contains(
-					"share-mastodon__dialog-is-invalid"
-				);
-				expect(hasInvalidClass).to.be.false;
-			}
+			expect(
+				dialog?.classList.contains("share-mastodon__dialog-is-invalid")
+			).to.be.false;
 		});
 	});
 
@@ -388,48 +356,15 @@ describe("<share-mastodon>", () => {
 		});
 
 		it("should handle special characters in hostname (should reject)", async () => {
-			const el = await fixture(
-				html`<share-mastodon show-icon></share-mastodon>`
-			);
-			await new Promise((resolve) => setTimeout(resolve, 200));
-
-			const editBtn = el.querySelector("button");
-			editBtn?.click();
-			await new Promise((resolve) => setTimeout(resolve, 100));
-
-			const dialog = document.querySelector("dialog");
-			const input = dialog?.querySelector("input");
-			if (input) {
-				input.value = "mastodon!@#.social";
-				const submitBtn = dialog?.querySelector("button[type='submit']");
-				submitBtn?.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
-
-				// Dialog should still be open (invalid input)
-				expect(dialog?.open).to.be.true;
-			}
+			const { dialog } = await openComponentDialog();
+			await submitDialogInput(dialog, "mastodon!@#.social");
+			expect(dialog?.open).to.be.true;
 		});
 
 		it("should not crash when input is cleared and submitted", async () => {
-			const el = await fixture(
-				html`<share-mastodon show-icon></share-mastodon>`
-			);
-			await new Promise((resolve) => setTimeout(resolve, 200));
-
-			const editBtn = el.querySelector("button");
-			editBtn?.click();
-			await new Promise((resolve) => setTimeout(resolve, 100));
-
+			const { el } = await openComponentDialog();
 			const dialog = document.querySelector("dialog");
-			const input = dialog?.querySelector("input");
-			if (input) {
-				input.value = "";
-				const submitBtn = dialog?.querySelector("button[type='submit']");
-				submitBtn?.click();
-				await new Promise((resolve) => setTimeout(resolve, 100));
-			}
-
-			// Should handle gracefully
+			await submitDialogInput(dialog, "");
 			expect(el).to.exist;
 		});
 	});
