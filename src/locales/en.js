@@ -1,4 +1,4 @@
-import { ShareMastodon } from "../share-mastodon.min.js";
+import { ShareMastodon } from "../share-mastodon.js";
 
 ShareMastodon.registerLocale("en", {
 	anchor_text: "Share on Mastodon",
