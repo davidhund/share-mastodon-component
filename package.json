@@ -37,7 +37,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davidhund/mastodon-share-component.git"
+    "url": "git+https://github.com/davidhund/share-mastodon-component.git"
   },
   "keywords": [
     "web-component",
@@ -56,9 +56,9 @@
   "author": "davidhund",
   "license": "EUPL-1.2",
   "bugs": {
-    "url": "https://github.com/davidhund/mastodon-share-component/issues"
+    "url": "https://github.com/davidhund/share-mastodon-component/issues"
   },
-  "homepage": "https://github.com/davidhund/mastodon-share-component#readme",
+  "homepage": "https://github.com/davidhund/share-mastodon-component#readme",
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
     "@open-wc/testing": "^4.0.0",
