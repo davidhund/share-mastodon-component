@@ -21,7 +21,7 @@ npm install @davidhund/share-mastodon-component
 Then import and use the component in your HTML:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@davidhund/share-mastodon-component/dist/share-mastodon.min.js"></script>
+<script type="module" src="https://unpkg.com/@davidhund/share-mastodon-component/dist/share-mastodon.min.js"></script>
 
 <share-mastodon>
   <a href="https://share.joinmastodon.org/#text=Check%20this%20out">Share via Mastodon</a>
@@ -81,7 +81,7 @@ npm install @davidhund/share-mastodon-component
 ### From CDN
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@davidhund/share-mastodon-component/dist/share-mastodon.min.js"></script>
+<script type="module" src="https://unpkg.com/@davidhund/share-mastodon-component/dist/share-mastodon.min.js"></script>
 ```
 
 ### From source
