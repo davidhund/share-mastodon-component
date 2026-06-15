@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/davidhund/share-mastodon-component/compare/v2.0.1...v2.0.2) (2026-06-15)
+
+
+### Bug Fixes
+
+* npm publish configuration for scoped package ([cf4fc5f](https://github.com/davidhund/share-mastodon-component/commit/cf4fc5f7c3560d9a9ec05bfd4b5b419ee9932d60))
+
 ## [2.0.1](https://github.com/davidhund/share-mastodon-component/compare/v2.0.0...v2.0.1) (2026-06-15)
 
 
