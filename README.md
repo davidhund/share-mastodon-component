@@ -10,12 +10,6 @@ Accessible, multilingual HTML Web Component that opens a Mastodon instance dialo
 
 ## Getting Started
 
-> ⚠️ This package has moved to:
-> `@davidhund/share-mastodon-component`
->
-> Please update your installs:
-> `npm install @davidhund/share-mastodon-component`
-
 ### Use in your project
 
 Install from npm:
