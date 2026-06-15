@@ -35,6 +35,9 @@
     "test": "wtr",
     "test:watch": "wtr --watch"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/davidhund/share-mastodon-component.git"
