@@ -10,18 +10,24 @@ Accessible, multilingual HTML Web Component that opens a Mastodon instance dialo
 
 ## Getting Started
 
+> ⚠️ This package has moved to:
+> `@davidhund/share-mastodon-component`
+>
+> Please update your installs:
+> `npm install @davidhund/share-mastodon-component`
+
 ### Use in your project
 
 Install from npm:
 
 ```bash
-npm install share-mastodon-component
+npm install @davidhund/share-mastodon-component
 ```
 
 Then import and use the component in your HTML:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/share-mastodon-component/dist/share-mastodon.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@davidhund/share-mastodon-component/dist/share-mastodon.min.js"></script>
 
 <share-mastodon>
   <a href="https://share.joinmastodon.org/#text=Check%20this%20out">Share via Mastodon</a>
@@ -31,7 +37,7 @@ Then import and use the component in your HTML:
 Or via ES modules:
 
 ```js
-import { ShareMastodon } from 'share-mastodon-component';
+import { ShareMastodon } from '@davidhund/share-mastodon-component';
 ```
 
 See [Basic usage](#basic-usage) and [Attributes](#attributes) below for more options.
@@ -75,13 +81,13 @@ The component is a **single-file Web Component** (~730 lines) with no external d
 ### From npm (recommended)
 
 ```bash
-npm install share-mastodon-component
+npm install @davidhund/share-mastodon-component
 ```
 
 ### From CDN
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/share-mastodon-component/dist/share-mastodon.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@davidhund/share-mastodon-component/dist/share-mastodon.min.js"></script>
 ```
 
 ### From source
@@ -290,8 +296,8 @@ The component ships with English built-in. Additional languages are available as
 Or via npm:
 
 ```js
-import { ShareMastodon } from 'share-mastodon-component';
-import 'share-mastodon-component/locales/fr';
+import { ShareMastodon } from '@davidhund/share-mastodon-component';
+import '@davidhund/share-mastodon-component/locales/fr';
 
 // Now French is available
 ```
