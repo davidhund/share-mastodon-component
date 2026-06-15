@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/davidhund/share-mastodon-component/compare/v1.0.2...v2.0.0) (2026-06-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* npm package name changed to @davidhund/share-mastodon-component
+
+### Features
+
+* migrate package to [@davidhund](https://github.com/davidhund) scope ([dde016f](https://github.com/davidhund/share-mastodon-component/commit/dde016f35ec25728dbefc81f52d808f5be96e628))
+
 ## [1.0.2](https://github.com/davidhund/mastodon-share-component/compare/v1.0.1...v1.0.2) (2026-06-11)
 
 
