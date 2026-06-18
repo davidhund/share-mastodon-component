@@ -269,7 +269,7 @@ The component is available in multiple languages. Each language has its own self
 
 ### Using a specific language
 
-Choose the build that matches your language. All builds contain identical functionality with only the UI strings changed.
+Choose the build that matches your language. All builds contain identical functionality with only the UI strings changed. Each language is a separate pre-built file, so consumers import only the strings they need — minimizing bundle size.
 
 **Via CDN:**
 

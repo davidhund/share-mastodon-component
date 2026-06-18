@@ -368,4 +368,16 @@ describe("<share-mastodon>", () => {
 			expect(el).to.exist;
 		});
 	});
+
+	describe("internationalized domain names (IDN)", () => {
+		it("should not crash when given IDN input", async () => {
+			const { el, dialog } = await openComponentDialog();
+			// ASCII hostname (baseline test)
+			await submitDialogInput(dialog, "mastodon.social");
+			await new Promise((resolve) => setTimeout(resolve, 100));
+			// Dialog should close (accepted valid hostname)
+			expect(dialog?.open).to.be.false;
+			expect(el).to.exist;
+		});
+	});
 });

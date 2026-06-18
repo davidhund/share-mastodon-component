@@ -311,7 +311,6 @@ export class ShareMastodon extends HTMLElement {
 		if (!trimmed.match(/\.\w{2,}/)) return null;
 		// No weird punctuation: this might be too strict...
 		if (trimmed.match(/[!)(]/)) return null;
-		if (encodeURIComponent(trimmed).match(/%\d/)) return null;
 		try {
 			const instanceUrl = new URL(`https://${trimmed}`);
 			return instanceUrl.hostname;
@@ -453,7 +452,7 @@ export class ShareMastodon extends HTMLElement {
 					// click the updated share-anchor
 					// ---
 					window?.open(
-						this.#anchor.getAttribute("href"),
+						this.#anchor?.getAttribute("href"),
 						"mastodon",
 						"noopener, noreferrer",
 					);
