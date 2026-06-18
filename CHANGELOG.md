@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/davidhund/share-mastodon-component/compare/v3.0.0...v3.0.1) (2026-06-18)
+
+
+### Bug Fixes
+
+* Biome CS issue ([b4bba94](https://github.com/davidhund/share-mastodon-component/commit/b4bba94338ff4d4fa864733b45e5d9a298a0be19))
+
 ## [3.0.0](https://github.com/davidhund/share-mastodon-component/compare/v2.0.2...v3.0.0) (2026-06-18)
 
 
