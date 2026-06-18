@@ -212,7 +212,6 @@ export class ShareMastodon extends HTMLElement {
 		);
 	}
 
-
 	/**
 	 * @private
 	 * @param {string} phrase key of i18n strings

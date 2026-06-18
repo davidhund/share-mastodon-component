@@ -23,7 +23,7 @@
     }
   },
   "scripts": {
-    "format": "biome format --write ./src/**/*.js",
+    "format": "biome format --write ./src",
     "build:script": "node scripts/build.mjs",
     "build:locale": "node scripts/create-locale.mjs",
     "build": "npm run format && npm run build:script",
