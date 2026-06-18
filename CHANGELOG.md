@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.3](https://github.com/davidhund/share-mastodon-component/compare/v3.0.2...v3.0.3) (2026-06-18)
+
+
+### Bug Fixes
+
+* allow internationalized domain names and handle null anchor ([51d6870](https://github.com/davidhund/share-mastodon-component/commit/51d6870ac17f0eb2ef0192c06596e796e215f78a))
+
 ## [3.0.2](https://github.com/davidhund/share-mastodon-component/compare/v3.0.1...v3.0.2) (2026-06-18)
 
 
