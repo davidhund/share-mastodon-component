@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/davidhund/share-mastodon-component/compare/v2.0.2...v3.0.0) (2026-06-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* ShareMastodon.registerLocale() static method removed.
+
+### Features
+
+* build per-locale instead of runtime registration ([5f72b43](https://github.com/davidhund/share-mastodon-component/commit/5f72b43b67ddb21beeec623f5b476fc2f2e97767))
+
 ## [2.0.2](https://github.com/davidhund/share-mastodon-component/compare/v2.0.1...v2.0.2) (2026-06-15)
 
 
