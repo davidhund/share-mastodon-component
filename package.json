@@ -1,6 +1,6 @@
 {
   "name": "@davidhund/share-mastodon-component",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Framework-free HTML Web Component to add Mastodon sharing to any site—with accessibility, multi-language support, and zero dependencies",
   "type": "module",
   "main": "./dist/share-mastodon.min.js",
