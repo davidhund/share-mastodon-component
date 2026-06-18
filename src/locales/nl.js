@@ -1,6 +1,4 @@
-import { ShareMastodon } from "../share-mastodon.js";
-
-ShareMastodon.registerLocale("nl", {
+export default {
 	anchor_text: "Deel via Mastodon",
 	anchor_text_explainer:
 		"Om deze pagina te delen via Mastodon, voer je eerst je server in.",
@@ -12,4 +10,4 @@ ShareMastodon.registerLocale("nl", {
 		"'%SERVER%' is geen geldige server naam zoals bijvoorbeeld 'mastodon.social' of 'social.overheid.nl'.",
 	dialog_cancel: "Sluiten",
 	dialog_save: "Ga verder",
-});
+};

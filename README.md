@@ -5,7 +5,7 @@ Accessible, multilingual HTML Web Component that opens a Mastodon instance dialo
 - No framework dependency — plain JavaScript ES Module
 - Progressive enhancement: works as a plain link without JS
 - Remembers the user's Mastodon instance across visits
-- English built-in; additional languages (nl, fr, de, es) available as optional locale files
+- Separate self-contained builds for each language: English (default), Dutch, French, German, Spanish
 - Fully overridable via attributes
 
 ## Getting Started
@@ -122,7 +122,6 @@ Preferably with a no-JS fallback anchor:
 | Attribute | Description |
 |---|---|
 | `server` | Preset the Mastodon instance hostname (e.g. `mastodon.social`). Skips the dialog and goes directly to the share page. Also saved to `localStorage` and shared across all instances on the page. |
-| `lang` | Force the UI language. Supported: `en` (built-in), `nl`, `fr`, `de`, `es` (require loading locale files). Auto-detected from the document by default. |
 | `show-icon` | Show the Mastodon SVG logo before the link. The icon has `role="presentation"` and is `1em` in size. |
 | `icon-only` | Show only the icon; link text is visually hidden but remains in the accessibility tree. Implies `show-icon`. |
 | `text` | Custom share text. Defaults to `document.title`. |
@@ -142,12 +141,6 @@ Preferably with a no-JS fallback anchor:
 
 ```html
 <share-mastodon server="mastodon.social">Share via Mastodon</share-mastodon>
-```
-
-### Force language
-
-```html
-<share-mastodon lang="en">Share via Mastodon</share-mastodon>
 ```
 
 ### With icon
@@ -264,41 +257,72 @@ document.addEventListener('share-mastodon:dialog:close', (event) => {
 
 ## Localization
 
-The component ships with English built-in. Additional languages are available as optional locale files that must be explicitly loaded.
+The component is available in multiple languages. Each language has its own self-contained build with strings baked in — simply load the appropriate build file.
 
-### Built-in languages
+### Available languages
 
-- `en` — English (built-in, no load needed)
+- **`share-mastodon.min.js`** — English (default)
+- **`share-mastodon.nl.min.js`** — Dutch
+- **`share-mastodon.fr.min.js`** — French
+- **`share-mastodon.de.min.js`** — German
+- **`share-mastodon.es.min.js`** — Spanish
 
-### Optional languages
+### Using a specific language
 
-- `nl` — Dutch
-- `fr` — French
-- `de` — German
-- `es` — Spanish
+Choose the build that matches your language. All builds contain identical functionality with only the UI strings changed.
 
-### Loading a locale
+**Via CDN:**
 
 ```html
-<script type="module" src="./dist/share-mastodon.min.js"></script>
-<script type="module" src="./dist/locales/fr.js"></script>
+<!-- English (default) -->
+<script type="module" src="https://unpkg.com/@davidhund/share-mastodon-component/dist/share-mastodon.min.js"></script>
 
-<!-- Now French is available -->
-<share-mastodon lang="fr">Partager sur Mastodon</share-mastodon>
+<!-- Or Dutch -->
+<script type="module" src="https://unpkg.com/@davidhund/share-mastodon-component/dist/share-mastodon.nl.min.js"></script>
+
+<!-- Or French -->
+<script type="module" src="https://unpkg.com/@davidhund/share-mastodon-component/dist/share-mastodon.fr.min.js"></script>
+
+<share-mastodon>Partager sur Mastodon</share-mastodon>
 ```
 
-Or via npm:
+**Via npm:**
 
 ```js
+// English
 import { ShareMastodon } from '@davidhund/share-mastodon-component';
-import '@davidhund/share-mastodon-component/locales/fr';
 
-// Now French is available
+// Or Dutch
+import { ShareMastodon } from '@davidhund/share-mastodon-component/nl';
+
+// Or French
+import { ShareMastodon } from '@davidhund/share-mastodon-component/fr';
 ```
 
 ### Adding a new language
 
-Contribute a new locale file! Submit a pull request with a file like `src/locales/xx.js` where `xx` is the language code. Use the existing locale files as a template.
+To contribute a new language, follow these steps:
+
+1. **Scaffold the locale file:**
+   ```bash
+   npm run build:locale -- pt  # Creates src/locales/pt.js for Portuguese
+   ```
+
+2. **Translate the strings** in `src/locales/pt.js`:
+   ```js
+   export default {
+     anchor_text: "Partilhar no Mastodon",
+     anchor_text_explainer: "Para partilhar esta página no Mastodon, introduza o seu servidor.",
+     // ... translate the remaining 6 strings
+   };
+   ```
+
+3. **Build and test:**
+   ```bash
+   npm run build
+   ```
+
+4. **Submit a pull request** with your new locale file and updated package.json exports.
 
 ## Styles
 
@@ -363,13 +387,9 @@ The component injects a minimal stylesheet once (light DOM — no Shadow DOM). A
 - Check if the app is running in a private/incognito window (localStorage disabled by default)
 - Verify the browser isn't configured to clear storage on exit
 
-### Locale not switching
-- Confirm you've loaded the locale file *before* creating component instances:
-  ```html
-  <script type="module" src="./dist/share-mastodon.min.js"></script>
-  <script type="module" src="./dist/locales/fr.js"></script>
-  ```
-- Set the `lang` attribute *after* loading the locale
+### Changing languages
+- Each language has its own separate build: `share-mastodon.min.js` (English), `share-mastodon.nl.min.js` (Dutch), etc.
+- Load the build that matches the desired language. The UI strings are baked into each build at compile time.
 
 ### Styling not applying
 - Remember: the component uses **light DOM** (not Shadow DOM), so CSS cascade and specificity apply normally
@@ -381,10 +401,11 @@ The component injects a minimal stylesheet once (light DOM — no Shadow DOM). A
 **Requirements:** Node.js LTS or later
 
 ```bash
-npm run build       # Format and bundle component + locales to /dist
+npm run build       # Format and build all locale variants to /dist
 npm test            # Run test suite
 npm test -- --watch # Watch mode for development
 npm run format      # Format source code with Biome
+npm run build:locale -- xx  # Scaffold a new locale (xx = language code)
 ```
 
 ## License

@@ -247,28 +247,25 @@
 <div class="demo-section">
 	<h2 class="demo-section__title">8. Locales (Multi-language)</h2>
 
-	<p>The component ships with English built-in. Additional languages (Dutch, French, German, Spanish) can be loaded as optional locale files.</p>
+	<p>Each language has its own self-contained build with strings baked in. Simply load the build for your desired language.</p>
 
-	<p>To enable other languages, load the locale file <strong>before</strong> creating component instances:</p>
-	<pre>&lt;script type="module" src="./dist/share-mastodon.min.js"&gt;&lt;/script&gt;
-&lt;script type="module" src="./dist/locales/fr.js"&gt;&lt;/script&gt;</pre>
+	<p><strong>Available languages:</strong></p>
+	<ul>
+		<li><code>share-mastodon.min.js</code> — English (default, shown on this page)</li>
+		<li><code>share-mastodon.nl.min.js</code> — Dutch</li>
+		<li><code>share-mastodon.fr.min.js</code> — French</li>
+		<li><code>share-mastodon.de.min.js</code> — German</li>
+		<li><code>share-mastodon.es.min.js</code> — Spanish</li>
+	</ul>
 
-	<p><strong>Try switching languages:</strong></p>
-	<div class="locale-picker">
-		<label for="lang-select">Choose language:</label>
-		<select id="lang-select">
-			<option value="en">English (en)</option>
-			<option value="nl">Dutch (nl)</option>
-			<option value="fr">French (fr)</option>
-			<option value="de">German (de)</option>
-			<option value="es">Spanish (es)</option>
-		</select>
-	</div>
+	<p>To use a different language, load the appropriate build:</p>
+	<pre>&lt;script type="module" src="./dist/share-mastodon.fr.min.js"&gt;&lt;/script&gt;
+
+&lt;share-mastodon show-icon="true"&gt;Partager sur Mastodon&lt;/share-mastodon&gt;</pre>
 
 	<div class="demo-box">
-		<share-mastodon id="locale-demo" lang="en" show-icon="true">Share</share-mastodon>
+		<share-mastodon show-icon="true">Share via Mastodon</share-mastodon>
 	</div>
-	<pre id="locale-code">&lt;share-mastodon lang="en" show-icon="true"&gt;Share&lt;/share-mastodon&gt;</pre>
 </div>
 
 <!-- ═════════════════════════════════════════ -->
@@ -403,10 +400,6 @@
 
 <!-- Load component and optional locales -->
 <script type="module" src="./dist/share-mastodon.min.js"></script>
-<script type="module" src="./dist/locales/nl.js"></script>
-<script type="module" src="./dist/locales/fr.js"></script>
-<script type="module" src="./dist/locales/de.js"></script>
-<script type="module" src="./dist/locales/es.js"></script>
 
 <!-- Event logging -->
 <script>
@@ -439,29 +432,6 @@
 		});
 	});
 
-	// Language switcher - recreate component when language changes
-	const langSelect = document.getElementById('lang-select');
-	const localeDemo = document.getElementById('locale-demo');
-	const localeCode = document.getElementById('locale-code');
-
-	if (langSelect && localeDemo) {
-		langSelect.addEventListener('change', (e) => {
-			const lang = e.target.value;
-
-			// Create new component with updated language
-			const newComponent = document.createElement('share-mastodon');
-			newComponent.id = 'locale-demo';
-			newComponent.setAttribute('lang', lang);
-			newComponent.setAttribute('show-icon', 'true');
-			newComponent.textContent = 'Share';
-
-			// Replace old component
-			localeDemo.replaceWith(newComponent);
-
-			// Update code snippet
-			localeCode.textContent = `&lt;share-mastodon lang="${lang}" show-icon="true"&gt;Share&lt;/share-mastodon&gt;`;
-		});
-	}
 </script>
 
 </body>

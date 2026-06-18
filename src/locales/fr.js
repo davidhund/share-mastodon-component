@@ -1,6 +1,4 @@
-import { ShareMastodon } from "../share-mastodon.js";
-
-ShareMastodon.registerLocale("fr", {
+export default {
 	anchor_text: "Partager sur Mastodon",
 	anchor_text_explainer:
 		"Pour partager cette page via Mastodon, veuillez d'abord entrer votre serveur instance.",
@@ -12,4 +10,4 @@ ShareMastodon.registerLocale("fr", {
 		"'%SERVER%' n'est pas un nom de serveur valide tel que 'mastodon.social' ou 'social.overheid.nl'.",
 	dialog_cancel: "Fermer",
 	dialog_save: "Continuer",
-});
+};

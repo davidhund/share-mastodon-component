@@ -4,6 +4,8 @@
  * Functionality inspired by https://github.com/codepo8/share-mastodon
  * (Some) code inspired by https://gomakethings.com/snippets/boilerplates/web-component/
  */
+import strings from "./locales/en.js";
+
 export class ShareMastodon extends HTMLElement {
 	/** localStorage key for the shared server (same for all instances) */
 	static #storageKey = "share-mastodon-instance";
@@ -13,30 +15,7 @@ export class ShareMastodon extends HTMLElement {
 	/** @type {Set<ShareMastodon>} */
 	static #instances = new Set();
 	/** @type {object} */
-	static #locales = {
-		en: {
-			anchor_text: "Share on Mastodon",
-			anchor_text_explainer:
-				"To share this page via Mastodon, first enter your instance server.",
-			edit_text: "Edit server",
-			dialog_label: "What is your Mastodon server?",
-			dialog_hint:
-				"Examples: mastodon.social, mastodon.online, mas.to or social.overheid.nl.",
-			dialog_hint_invalid:
-				"'%SERVER%' is not a valid server name such as 'mastodon.social' or 'social.overheid.nl'.",
-			dialog_cancel: "Close",
-			dialog_save: "Continue",
-		},
-	};
-
-	/**
-	 * Register a new language pack
-	 * @param {string} code - Language code (e.g., 'fr', 'de')
-	 * @param {object} strings - Locale strings object
-	 */
-	static registerLocale(code, strings) {
-		ShareMastodon.#locales[code] = strings;
-	}
+	static #strings = strings;
 
 	/** Sync UI for all instances when global server is updated */
 	static #syncAllInstances() {
@@ -52,7 +31,6 @@ export class ShareMastodon extends HTMLElement {
 	/** @type {boolean} */ #isInitialized = false;
 	/** @type {string} */ #id = Math.random().toString(36).slice(2);
 	/** @type {string} */ #name;
-	/** @type {string} */ #lang = "en";
 	/** @type {HTMLAnchorElement | null} */ #anchor;
 	/** @type {string} */ #anchor_original_href;
 	/** @type {HTMLElement | null} */ #explainer;
@@ -172,7 +150,6 @@ export class ShareMastodon extends HTMLElement {
 		this.#readServerConfig();
 
 		// Setup component properties
-		this.#lang = this.#detectLang();
 		this.#name = this.tagName.toLowerCase();
 		this.#anchor = this.querySelector("a");
 		this.#text = this.getAttribute("text");
@@ -235,50 +212,26 @@ export class ShareMastodon extends HTMLElement {
 		);
 	}
 
+
 	/**
 	 * @private
+	 * @param {string} phrase key of i18n strings
 	 * @returns {string}
 	 * ----------------------------- */
-	#detectLang() {
-		const lang = String(
-			this.getAttribute("lang") ||
-				this.closest("[lang]")?.getAttribute("lang") ||
-				navigator?.language,
-		).split("-")[0];
-
-		if (ShareMastodon.#locales[lang]) {
-			return lang;
-		} else {
-			console.warn(
-				`${this.#name}: no translations for '${lang}'. Falling back to '${this.#lang}'`,
-			);
-			return this.#lang;
-		}
-	}
-
-	/**
-	 * @private
-	 * @param {string} phrase key of i18n translations
-	 * @returns {string} from i18n with prefered language
-	 * ----------------------------- */
 	#getString(phrase) {
-		const translations =
-			ShareMastodon.#locales[this.#lang] || ShareMastodon.#locales.en;
-		if (!phrase || !translations) return "";
-		return translations[phrase] || "";
+		if (!phrase) return "";
+		return ShareMastodon.#strings[phrase] ?? "";
 	}
 
 	/**
 	 * @private
-	 * @param {string} phrase key of i18n translations
-	 * @param {string} value updated value translation of phrase
+	 * @param {string} phrase key of i18n strings
+	 * @param {string} value override value
 	 * @returns {string} value
 	 * ----------------------------- */
 	#setString(phrase, value) {
-		const translations =
-			ShareMastodon.#locales[this.#lang] || ShareMastodon.#locales.en;
-		if (!phrase || !value || !translations) return "";
-		translations[phrase] = value;
+		if (!phrase || !value) return "";
+		ShareMastodon.#strings[phrase] = value;
 		return value;
 	}
 

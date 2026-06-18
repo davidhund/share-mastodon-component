@@ -9,28 +9,25 @@
     ".": {
       "import": "./dist/share-mastodon.min.js"
     },
-    "./locales/en": {
-      "import": "./dist/locales/en.js"
+    "./nl": {
+      "import": "./dist/share-mastodon.nl.min.js"
     },
-    "./locales/nl": {
-      "import": "./dist/locales/nl.js"
+    "./fr": {
+      "import": "./dist/share-mastodon.fr.min.js"
     },
-    "./locales/fr": {
-      "import": "./dist/locales/fr.js"
+    "./de": {
+      "import": "./dist/share-mastodon.de.min.js"
     },
-    "./locales/de": {
-      "import": "./dist/locales/de.js"
-    },
-    "./locales/es": {
-      "import": "./dist/locales/es.js"
+    "./es": {
+      "import": "./dist/share-mastodon.es.min.js"
     }
   },
   "scripts": {
     "format": "biome format --write ./src/**/*.js",
-    "build:script": "esbuild src/share-mastodon.js --format=esm --target=es2020 --platform=browser --bundle --minify --sourcemap --outfile=dist/share-mastodon.min.js",
-    "build:locales": "esbuild src/locales/en.js src/locales/nl.js src/locales/fr.js src/locales/de.js src/locales/es.js --format=esm --target=es2020 --platform=browser --minify --sourcemap --outdir=dist/locales",
-    "build": "npm run format && npm run build:script && npm run build:locales",
-    "prepare": "npm run build:script && npm run build:locales",
+    "build:script": "node scripts/build.mjs",
+    "build:locale": "node scripts/create-locale.mjs",
+    "build": "npm run format && npm run build:script",
+    "prepare": "npm run build:script",
     "prepublishOnly": "npm run build",
     "test": "wtr",
     "test:watch": "wtr --watch"
